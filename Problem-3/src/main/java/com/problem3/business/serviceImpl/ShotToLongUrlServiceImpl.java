@@ -16,10 +16,16 @@ import com.problem3.business.dto.UrlMappingDTO;
 import com.problem3.business.service.ShortToLongUrlService;
 import com.problem3.integration.domain.UrlMapping;
 import com.problem3.integration.repository.UrlRepository;
+import com.problem3.util.LogUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class ShotToLongUrlServiceImpl implements ShortToLongUrlService {
 
+	private final String CLASSNAME = this.getClass().getSimpleName();
+	
 	@Autowired
 	UrlRepository urlRepository;
 	
@@ -33,6 +39,8 @@ public class ShotToLongUrlServiceImpl implements ShortToLongUrlService {
 
 	@Override
 	public Map<String, Object> saveUrl(String url) throws Exception {
+		
+		log.info(LogUtil.startLog(CLASSNAME));
 
 		Map<String, Object> map = new HashMap<>();
 
