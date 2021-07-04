@@ -4,4 +4,5 @@ package com.mockTests.Repository;
 public interface Predicate<T> {
 	public <T> boolean test(T t);
 	
+	
 }
