@@ -1,5 +1,9 @@
 package com.mockTests.Repository;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 abstract class TestAbs {
 	void print(int i) {
 		System.out.println("int is:" + i);
@@ -8,17 +12,41 @@ abstract class TestAbs {
 	abstract void show();
 }
 
-public class AbstractTesting extends TestAbs {
+public class AbstractTesting implements Inter1, Inter2{
 
+
+	
 	@Override
-	void show() {
-		// need to provide definition of abstract method here
-
+	public void ko() {
+		// TODO Auto-generated method stub
+		
 	}
+	
+
 
 	public static void main(String args[]) {
 		System.out.println("string");
-
+		String address = "www.facebook.com";
+		String google = "www.google.com";
+		
+//		try {
+//			InetAddress inetAddress = Inet4Address.getByName(google);
+//			
+//			System.out.println(inetAddress.getHostAddress());
+//		} catch (UnknownHostException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		for(int i=0;i<5;i++) {
+			String str = "str"+i;
+			System.out.println(str.hashCode());
+			AbstractTesting ad = new AbstractTesting();
+			System.out.println(ad);
+			ThreadTest test = new ThreadTest(str);
+			test.start();
+		 
+		}
+		
 		String str = "aabbaadacsdfg";
 		String seq = "z";
 		System.out.println(rearrange(str, seq));
@@ -46,6 +74,16 @@ public class AbstractTesting extends TestAbs {
 		}
 
 	}
+
+
+
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 
 //	public static void main(Integer args[]) {
 //		System.out.println("integer");
