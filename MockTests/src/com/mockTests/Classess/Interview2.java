@@ -9,7 +9,7 @@ public class Interview2 {
 	static void arrange() {
 		int[] arr = { 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1 };
 		int length = arr.length;
-		for (int i = 0; i < arr.length; i++) {
+		for (int i = 0; i < arr.length/2; i++) {
 
 			if (arr[i] == 0 && arr[length - (i + 1)] == 1) {
 
