@@ -2,6 +2,7 @@ package com.mockTests.Classess;
 
 public class Interview2 {
 	public static void main(String[] args) {
+		arrange();
 
 	}
 
