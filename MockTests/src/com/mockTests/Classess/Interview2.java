@@ -1,5 +1,9 @@
 package com.mockTests.Classess;
 
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 public class Interview2 {
 	public static void main(String[] args) {
 //		arrange1();
@@ -7,33 +11,46 @@ public class Interview2 {
 //		System.out.println("Integer roll over:" +  Integer.MAX_VALUE+1);
 //		System.out.println("Integer Max / 10 : "+ Integer.MAX_VALUE/10);
 		Node node = new Node();
-		node.value = 12;
+		node.value = 11;
 
 		Node left = new Node();
-		left.value = 13;
+		left.value = 6;
 		Node right = new Node();
-		right.value = 14;
+		right.value = 15;
 
 		Node left1 = new Node();
 		left1.value = 3;
 		Node right1 = new Node();
-		right1.value = 7;
+		right1.value = 8;
 
 		Node left2 = new Node();
-		left2.value = 9;
+		left2.value = 13;
 		Node right2 = new Node();
-		right2.value = 78;
+		right2.value = 17;
 
-		node.left = left;
-		node.right = right;
+		// 11
+		// 6 15
+		// 3 8 13 17
+		node.left = left; // 6
+		node.right = right; // 15
 
-		left.left = left1;
-		left.right = right1;
+		// 6
+		left.left = left1; // 3
+		left.right = right1; // 8
 
-		right.left = left2;
-		right.right = right2;
+		// 15
+		right.left = left2; // 13
+		right.right = right2; // 17
 
-		System.out.println(node.findNode(node, 78));
+		// System.out.println(node.findNode(node, 78));
+//		System.out.println("PreOrder: ");
+//		node.preOrder(node);
+//		System.out.println("InOrder: ");
+//		node.inOrder(node);
+//		System.out.println("PostOrder: ");
+//		node.postOrder(node);
+//		System.out.println("levelOrder: ");
+		node.levelOrder(node);
 
 	}
 
@@ -118,6 +135,62 @@ class Node {
 				return findNode(root.left, num) || findNode(root.right, num);
 			}
 		}
+	}
+
+	public void preOrder(Node root) {
+		if (root != null) {
+			System.out.println(root.value);
+			preOrder(root.left);
+			preOrder(root.right);
+		}
+
+	}
+	// 11
+	// 6 15
+	// 3 8 13 17
+
+	public void inOrder(Node root) {
+		if (root != null) {
+			inOrder(root.left);
+			System.out.println(root.value);
+			inOrder(root.right);
+		}
+
+	}
+
+	public void postOrder(Node root) {
+		if (root != null) {
+			postOrder(root.left);
+			postOrder(root.right);
+			System.out.println(root.value);
+		}
+
+	}
+
+	Queue<Node> que = new LinkedList<>();
+
+	public void levelOrder(Node root) {
+
+		if (root != null) {
+			que.add(root);
+			while (!que.isEmpty()) {
+				Node node = que.poll();
+				if (node != null && node.value > 0) {
+					System.out.println(node.value);
+
+					if (node.left != null) {
+						que.add(node.left);
+					}
+
+					if (node.right != null) {
+						que.add(node.right);
+					}
+
+				}
+
+			}
+		}
+
 	}
 
 }
