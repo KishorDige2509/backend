@@ -167,16 +167,14 @@ class Node {
 
 	}
 
-	Queue<Node> que = new LinkedList<>();
-
 	public void levelOrder(Node root) {
-
+		Queue<Node> que = new LinkedList<>();
 		if (root != null) {
 			que.add(root);
 			while (!que.isEmpty()) {
 				Node node = que.poll();
 				if (node != null && node.value > 0) {
-					System.out.println(node.value);
+					System.out.print(node.value + " ");
 
 					if (node.left != null) {
 						que.add(node.left);
