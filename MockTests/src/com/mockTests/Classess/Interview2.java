@@ -1,7 +1,8 @@
 package com.mockTests.Classess;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
+import java.util.List;
 import java.util.Queue;
 
 public class Interview2 {
@@ -28,9 +29,9 @@ public class Interview2 {
 		Node right2 = new Node();
 		right2.value = 17;
 
-		// 11
-		// 6 15
-		// 3 8 13 17
+		//      11
+		//   6      15
+		// 3   8  13  17
 		node.left = left; // 6
 		node.right = right; // 15
 
@@ -42,15 +43,18 @@ public class Interview2 {
 		right.left = left2; // 13
 		right.right = right2; // 17
 
-		// System.out.println(node.findNode(node, 78));
+//		System.out.println(node.findNode(node, 17));
 //		System.out.println("PreOrder: ");
 //		node.preOrder(node);
 //		System.out.println("InOrder: ");
 //		node.inOrder(node);
 //		System.out.println("PostOrder: ");
 //		node.postOrder(node);
-//		System.out.println("levelOrder: ");
+		System.out.println("levelOrder: ");
 		node.levelOrder(node);
+//		System.out.println("Height: " + node.height(node));
+		
+		
 
 	}
 
@@ -145,9 +149,9 @@ class Node {
 		}
 
 	}
-	// 11
-	// 6 15
-	// 3 8 13 17
+	//      11
+	//   6      15
+	// 3   8  13  17
 
 	public void inOrder(Node root) {
 		if (root != null) {
@@ -169,12 +173,14 @@ class Node {
 
 	public void levelOrder(Node root) {
 		Queue<Node> que = new LinkedList<>();
+		List<Integer> list = new ArrayList<>();
 		if (root != null) {
 			que.add(root);
 			while (!que.isEmpty()) {
 				Node node = que.poll();
 				if (node != null && node.value > 0) {
 					System.out.print(node.value + " ");
+					list.add(node.value);					
 
 					if (node.left != null) {
 						que.add(node.left);
@@ -188,7 +194,33 @@ class Node {
 
 			}
 		}
+		System.out.println();
+		System.out.println("BST: ");
+		int max = 0, min = 0, range = 0;
+		System.out.println(list.get(range) + " ");	
+		
+		for (int i = 1; i < list.size(); i = (i*2) + 1) {
+			
+			range = i;
+			max = (max * 2) + 2;
+			min = (min * 2) + 1;
+			while (range >= min && range <= max && range != 0) {
+				System.out.print(list.get(range) + " ");
+				range++;
+			}
+			
+			System.out.println();
+		}
+		
 
 	}
+	
+	public int height(Node root) {
+		if (root == null) return 0;
+		return Math.max(height(root.left), height(root.right))  + 1;
+	}
+	
+
+
 
 }
