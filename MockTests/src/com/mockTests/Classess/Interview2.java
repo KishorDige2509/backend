@@ -53,9 +53,77 @@ public class Interview2 {
 //		System.out.println("levelOrder: ");
 //		node.levelOrder(node);
 //		System.out.println("Height: " + node.height(node));
+		char[] charArray = {'A', 'B', 'C', 'D', 'E'};
+//		printPattern(charArray);
 		
-		
+//		System.out.println(isPalindrome(121));
+		charCount("apple");
+		printInvertedPiramid(charArray);
 
+	}
+	
+	private static void charCount(String string) {
+		String[] charArray = string.split("");
+		for(int i=0; i<charArray.length; i++) {
+			if(charArray[i] != null) {
+				String s = charArray[i];
+				int count = 0;
+				for(int j=0; j<charArray.length; j++) {
+					if(charArray[j] != null && s.equals(charArray[j])) {
+						count++;
+						charArray[j] = null;
+					}
+				}
+				String timeOrtimes = count>1 ? "times." : "time.";
+				System.out.println(s + " occured: " + count + timeOrtimes);
+			}
+			
+		}
+	}
+
+	static boolean isPalindrome(int x) {
+        
+		if(x==0 || (x!=0 && x%10 == 0)) return false;
+		
+		int rev = 0, num = x;
+        while(num!=0){
+            rev = rev * 10 + num%10;
+            num/=10;
+        }
+        
+        return rev == x;
+    }
+	
+	static void printInvertedPiramid(char[] charArray) {
+		for(int i=0; i < charArray.length; i++) {
+			for(int j=0; j < charArray.length; j++) {
+				if(j>=i) {
+					System.out.print(charArray[j] + " ");
+				} else {
+					System.out.print(" ");
+				}
+			}
+			System.out.println();
+		}
+	}
+	
+	static void printPattern(char[] charArray) {		
+		for(int i = 0; i < charArray.length; i++) {
+			for(int j = 0; j < charArray.length; j++) {
+				System.out.print(charArray[j] + " ");
+			}
+			// rotate array elements
+			rotateArray(charArray);
+			System.out.println();
+		}
+	}
+
+	private static void rotateArray(char[] charArray) {
+		char temp = charArray[0];
+		for(int i=0; i<charArray.length-1; i++) {
+			charArray[i] = charArray[i+1];
+		}
+		charArray[charArray.length-1] = temp;
 	}
 
 	static void arrange() {
