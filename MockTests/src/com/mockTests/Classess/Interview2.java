@@ -50,8 +50,8 @@ public class Interview2 {
 //		node.inOrder(node);
 //		System.out.println("PostOrder: ");
 //		node.postOrder(node);
-		System.out.println("levelOrder: ");
-		node.levelOrder(node);
+//		System.out.println("levelOrder: ");
+//		node.levelOrder(node);
 //		System.out.println("Height: " + node.height(node));
 		
 		
@@ -196,16 +196,27 @@ class Node {
 		}
 		System.out.println();
 		System.out.println("BST: ");
-		int max = 0, min = 0, range = 0;
-		System.out.println(list.get(range) + " ");	
+		int max = 0, min = 0, range = 0, height = height(root)-1, tempHeight = height;
+		while (tempHeight != 0) {
+			System.out.print("\t");
+			tempHeight--;
+		}
+		
+		System.out.println(list.get(range));	
 		
 		for (int i = 1; i < list.size(); i = (i*2) + 1) {
 			
 			range = i;
-			max = (max * 2) + 2;
 			min = (min * 2) + 1;
-			while (range >= min && range <= max && range != 0) {
-				System.out.print(list.get(range) + " ");
+			max = (max * 2) + 2;
+			//height--;
+			while (range >= min && range <= max) {
+				int h = --height;
+				while(h != 0) {
+					System.out.print("\t");
+					h--;
+				}
+				System.out.print(list.get(range) + "\t" + "\t");
 				range++;
 			}
 			
