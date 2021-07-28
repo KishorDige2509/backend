@@ -57,11 +57,51 @@ public class Interview2 {
 //		printPattern(charArray);
 		
 //		System.out.println(isPalindrome(121));
-		charCount("apple");
-		printInvertedPiramid(charArray);
+//		charCount("apple");
+//		printInvertedPiramid(charArray);
+		
+//		charPatternCount("There is a goal jhol for the goal keeper!", null);
+		divideStringEqually("barabarmore", 3);
 
 	}
 	
+	
+	
+	private static void divideStringEqually(String string, int count) {
+		
+	}
+
+
+
+	private static void charPatternCount(String string, String pattern) {
+		if(string==null || pattern==null) System.out.println("Sample or pattern cannot be null");
+		if(string.isEmpty() && pattern.isEmpty()) System.out.println("Sample or pattern cannot be empty!");
+		if(pattern.length() > string.length()) System.out.println("Pattern cannot be larger than sample");
+		
+		char[] stringArray = string.toCharArray();
+		StringBuilder sb = new StringBuilder();
+		int count = 0;
+		int loopCount = 0;
+		for(int i=0; i<stringArray.length; i++) {
+			sb.append(stringArray[i]);
+			if(pattern.length() == sb.length()) {
+				if(pattern.contentEquals(sb)) {
+					count++;
+				}
+				i-=(loopCount-1);
+				loopCount=0;
+				sb = new StringBuilder();
+			}
+			loopCount++;
+		}
+		
+		String timeOrTimes = count>1 ? " times." : " time.";
+		System.out.println("Pattern: \"" + pattern + "\" occurred " + count + timeOrTimes + " in Sample: " + string);
+				
+	}
+
+
+
 	private static void charCount(String string) {
 		String[] charArray = string.split("");
 		for(int i=0; i<charArray.length; i++) {
@@ -74,8 +114,8 @@ public class Interview2 {
 						charArray[j] = null;
 					}
 				}
-				String timeOrtimes = count>1 ? "times." : "time.";
-				System.out.println(s + " occured: " + count + timeOrtimes);
+				String timeOrTimes = count>1 ? " times." : " time.";
+				System.out.println(s + " occured: " + count + timeOrTimes);
 			}
 			
 		}
