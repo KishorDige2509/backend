@@ -1,9 +1,12 @@
 package com.mockTests.Classess;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
+import java.util.TreeSet;
 
 public class Interview2 {
 	public static void main(String[] args) {
@@ -61,13 +64,37 @@ public class Interview2 {
 //		printInvertedPiramid(charArray);
 		
 //		charPatternCount("There is a goal jhol for the goal keeper!", null);
-		divideStringEqually("barabarmore", 3);
-
+//		divideStringEqually("killkillkillkill", 3);
+		
+		int[] arr = { 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1 };
+		divideAndConquer(arr);
+		
+		
+	}
+	
+	private static void divideAndConquer(int[] arr) {
+		
 	}
 	
 	
 	
 	private static void divideStringEqually(String string, int count) {
+		StringBuilder sb = new StringBuilder();
+		int strLength = string.length();
+		if(count > strLength) System.out.println("Count cannot be greater than String length");
+		else {
+			int printCount = 0;
+			int length = string.length()/count;
+			char[] charArray = string.toCharArray();
+			for(int i=0; i<string.length(); i++) {
+				sb.append(charArray[i]);
+				if(sb.length() == length && printCount<count) {
+					System.out.println(sb);
+					sb = new StringBuilder();
+					printCount++;
+				} 
+			}
+		}
 		
 	}
 
@@ -342,4 +369,36 @@ class Node {
 
 
 
+}
+
+class Solution {
+    void matchPairs(char nuts[], char bolts[], int n) {
+        // code here
+        Character[] elements = {'!','#','$','%','&','*','@','^','~'};
+        
+        Map<Character, Integer> orderMap = new HashMap<>();
+        Map<Character, Integer> nutsMap = new HashMap<>();
+        Map<Integer, Character> boltsMap = new HashMap<>();
+        
+        for(int i=0; i<elements.length; i++){
+            orderMap.put(elements[i], i);
+        }
+        
+        for(int i=0; i<nuts.length; i++){
+            int pr = orderMap.get(nuts[i]);
+            nutsMap.put(nuts[i], pr);
+            boltsMap.put(pr, nuts[i]);
+        }
+        
+        TreeSet<Integer> tst = new TreeSet<>();
+        tst.addAll(nutsMap.values());
+    
+        
+        for(int i=0; i<bolts.length; i++){
+            Integer key = tst.pollFirst();
+            bolts[i] = boltsMap.get(key);
+            nuts[i] = boltsMap.get(key);
+        }
+        
+    }
 }
