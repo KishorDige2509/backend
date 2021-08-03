@@ -76,6 +76,47 @@ public class Interview2 {
 		
 	}
 	
+	private static void matchPairs(char nuts[], char bolts[], int n) {
+        // code here
+        Character[] elements = {'!','#','$','%','&','*','@','^','~'};
+        
+        Map<Character, Integer> orderMap = new HashMap<>();
+        Map<Character, Integer> nutsMap = new HashMap<>();
+        Map<Integer, Character> boltsMap = new HashMap<>();
+        
+        for(int i=0; i<elements.length; i++){
+            orderMap.put(elements[i], i);
+        }
+        
+        for(int i=0; i<nuts.length; i++){
+            int pr = orderMap.get(nuts[i]);
+            nutsMap.put(nuts[i], pr);
+            boltsMap.put(pr, nuts[i]);
+        }
+        
+        TreeSet<Integer> tst = new TreeSet<>();
+        tst.addAll(nutsMap.values());
+    
+        
+        for(int i=0; i<bolts.length; i++){
+            Integer key = tst.pollFirst();
+            bolts[i] = boltsMap.get(key);
+            nuts[i] = boltsMap.get(key);
+        }
+        
+    }
+	
+	private static ArrayList<Integer> valueEqualToIndex(int arr[], int n) {
+        // code here
+        ArrayList<Integer> ans = new ArrayList<>();
+        for(int i=0; i<arr.length; i++){
+            if(++i == arr[--i]){
+                ans.add(arr[i]);
+            }
+        }
+        
+        return ans;
+    }
 	
 	
 	private static void divideStringEqually(String string, int count) {
@@ -371,34 +412,7 @@ class Node {
 
 }
 
-class Solution {
-    void matchPairs(char nuts[], char bolts[], int n) {
-        // code here
-        Character[] elements = {'!','#','$','%','&','*','@','^','~'};
-        
-        Map<Character, Integer> orderMap = new HashMap<>();
-        Map<Character, Integer> nutsMap = new HashMap<>();
-        Map<Integer, Character> boltsMap = new HashMap<>();
-        
-        for(int i=0; i<elements.length; i++){
-            orderMap.put(elements[i], i);
-        }
-        
-        for(int i=0; i<nuts.length; i++){
-            int pr = orderMap.get(nuts[i]);
-            nutsMap.put(nuts[i], pr);
-            boltsMap.put(pr, nuts[i]);
-        }
-        
-        TreeSet<Integer> tst = new TreeSet<>();
-        tst.addAll(nutsMap.values());
+
+
     
-        
-        for(int i=0; i<bolts.length; i++){
-            Integer key = tst.pollFirst();
-            bolts[i] = boltsMap.get(key);
-            nuts[i] = boltsMap.get(key);
-        }
-        
-    }
-}
+
