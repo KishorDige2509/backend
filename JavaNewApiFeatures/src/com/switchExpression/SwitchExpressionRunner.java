@@ -40,6 +40,7 @@ public class SwitchExpressionRunner {
 		}
 
 		return dayOfWeek;
+		
 	}
 
 	public static String findDayOftheWeekWithSwitchExpression(int day) {
