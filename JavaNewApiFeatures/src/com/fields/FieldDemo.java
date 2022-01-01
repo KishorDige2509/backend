@@ -66,8 +66,8 @@ public class FieldDemo {
 		System.out.println("super class name: " + st1.getClass().getSuperclass());
 		System.out.println("generic super name: " + st1.getClass().getGenericSuperclass());
 		System.out.println("cannonical name: " + st1.getClass().getCanonicalName());
-		System.out.println("class name: " + st1.getClass().getSimpleName());
-		System.out.println("class name: " + st1.getClass().getName());
+		System.out.println("simple name: " + st1.getClass().getSimpleName());
+		System.out.println("name: " + st1.getClass().getName());
 		System.out.println("type name: " + st1.getClass().getTypeName());
 
 //		List<?super Object> list = new LinkedList<>();
@@ -98,6 +98,13 @@ public class FieldDemo {
 				.findFirst().ifPresent(s->System.out.println("Student Name got in streams : " + s.getName()));
 		
 		// OR use flatMap if value is present as it return sequential stream or null
+		
+		List<Long> studentIdsList = list.stream().map(Student::getStudentId).collect(Collectors.toList());
+		System.out.println();
+		System.out.println("Collecting list of element of objectList : " + studentIdsList);
+		List<Long> studentIdsList2 = list.stream().map(Student::getStudentId).toList();
+//		productIds=products.stream().map(ProductMaster::getProductId).collect(Collectors.toList());
+		System.out.println("Collecting list of element of objectList2 : " + studentIdsList2);
 		
 
 	}
