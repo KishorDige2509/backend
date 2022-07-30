@@ -103,13 +103,28 @@ public class BinaryTreesLearning {
 
 	}
 
+	/*
+	 * problems on BST
+	 */
 	public static int countNodes(Node root) {
 		if (root == null) {
 			return 0;
-		} else {
-			return countNodes(root.left) + countNodes(root.right) + 1;
 		}
+		return countNodes(root.left) + countNodes(root.right) + 1;
+	}
 
+	public static int sumOfNodes(Node root) {
+		if (root == null) {
+			return 0;
+		}
+		return sumOfNodes(root.left) + sumOfNodes(root.right) + root.data;
+	}
+	
+	public static int heightOfTree(Node root) {		
+		if(root == null) {
+			return 0;
+		} 
+		return Math.max(heightOfTree(root.left), heightOfTree(root.right)) + 1;		
 	}
 
 	public static void main(String[] args) {
@@ -140,6 +155,12 @@ public class BinaryTreesLearning {
 
 		System.out.println();
 		System.out.println("Total nodes: " + countNodes(root));
+		
+		System.out.println();
+		System.out.println("Sum of nodes: " + sumOfNodes(root));
+		
+		System.out.println();
+		System.out.println("Height of treee:" + heightOfTree(root));
 
 	}
 
