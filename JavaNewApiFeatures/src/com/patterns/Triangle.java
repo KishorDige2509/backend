@@ -6,12 +6,12 @@ public class Triangle {
 		System.out.println();
 		hollowRightAngledTriangle();
 		System.out.println();
-		reverseRightAngledTriangle();
+		invertedRightAngledTriangle();
 		System.out.println();
-		reverseHollowRightAngledTriangle();
+		invertedHollowRightAngledTriangle();
 	}
 
-	private static void reverseHollowRightAngledTriangle() {
+	private static void invertedHollowRightAngledTriangle() {
 		for(int i=1; i<=5; i++) {
 			for(int j=5; j>=1; j--) {
 				if(j==5 || i==1 || i==j) {
@@ -49,7 +49,7 @@ public class Triangle {
 		}
 	}
 
-	public static void reverseRightAngledTriangle() {
+	public static void invertedRightAngledTriangle() {
 		for (int i = 1; i <= 5; i++) {
 			for (int j = 1; j <= 5; j++) {
 				if(i<=j) {
