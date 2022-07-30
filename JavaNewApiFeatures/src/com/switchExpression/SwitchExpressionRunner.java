@@ -62,7 +62,8 @@ public class SwitchExpressionRunner {
 	}
 
 	public static void main(String[] args) {
-
+		/* what else you want in your life except this */
+		
 	}
 
 }
