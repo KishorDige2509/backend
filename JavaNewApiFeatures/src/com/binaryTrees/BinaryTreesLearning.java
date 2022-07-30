@@ -126,6 +126,8 @@ public class BinaryTreesLearning {
 		} 
 		return Math.max(heightOfTree(root.left), heightOfTree(root.right)) + 1;		
 	}
+	
+	
 
 	public static void main(String[] args) {
 		// pre-order data
