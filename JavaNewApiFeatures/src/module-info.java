@@ -1,0 +1,3 @@
+module fileReadWriteRunner {
+	requires lombok;
+}
