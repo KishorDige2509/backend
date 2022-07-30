@@ -9,6 +9,7 @@ public class Triangle {
 		invertedRightAngledTriangle();
 		System.out.println();
 		invertedHollowRightAngledTriangle();
+		
 	}
 
 	private static void invertedHollowRightAngledTriangle() {
