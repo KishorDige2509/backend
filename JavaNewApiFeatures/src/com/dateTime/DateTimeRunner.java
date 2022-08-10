@@ -14,15 +14,17 @@ public class DateTimeRunner {
 		
 		Date nowDate = new Date();
 		
-		Long prevDate = nowDate.getTime() - (nowDate.getTime()-(1000 * 60 * 60));
+		Long hours = 69L;
+		Long sec = 203L;
+		Long millisec = 1000L;
+		
+		Long prevDate = nowDate.getTime() - (nowDate.getTime()-(millisec * sec));
 		
 		System.out.println("Seconds:" + TimeUnit.MILLISECONDS.toSeconds(prevDate));
 		System.out.println("Minutes:" + TimeUnit.MILLISECONDS.toMinutes(prevDate));
 		System.out.println("Hours:" + TimeUnit.MILLISECONDS.toHours(prevDate));
 		
-		Integer nu = null;
+		System.out.println("Minutes converted:" + TimeUnit.MINUTES.convert(prevDate, TimeUnit.MILLISECONDS));
 		
-		Integer sum = nu + 1;
-		System.out.println("Sum:" + sum);
 	}
 }

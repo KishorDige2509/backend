@@ -34,7 +34,7 @@ public class BinaryTreesLearning {
 	}
 
 	/*
-	 * DFS
+	 * DFS traversal
 	 */
 	public static void preorder(Node root) {
 
@@ -70,7 +70,7 @@ public class BinaryTreesLearning {
 	}
 
 	/*
-	 * BFS
+	 * BFS traversal
 	 */
 	public static void levelOrder(Node root) {
 		if (root == null) {
@@ -119,15 +119,49 @@ public class BinaryTreesLearning {
 		}
 		return sumOfNodes(root.left) + sumOfNodes(root.right) + root.data;
 	}
-	
-	public static int heightOfTree(Node root) {		
-		if(root == null) {
+
+	public static int heightOfTree(Node root) {
+		if (root == null) {
 			return 0;
-		} 
-		return Math.max(heightOfTree(root.left), heightOfTree(root.right)) + 1;		
+		}
+		return Math.max(heightOfTree(root.left), heightOfTree(root.right)) + 1;
 	}
-	
-	
+
+	private static class NodeInfo {
+		int leftHeight;
+		int rightHeight;
+		int diameterOfTree;
+
+		public NodeInfo(int lh, int rh) {
+			this.leftHeight = lh;
+			this.rightHeight = rh;
+
+		}
+	}
+
+	/*
+	 * quadratic time O(n^2)
+	 */
+	public static int diameterOfTreeQuad(Node root) {
+		if (root == null) {
+			return 0;
+		}
+		return heightOfTree(root.left) + heightOfTree(root.right) + 1;
+	}
+
+	public static int diameterOfTree(Node root) {
+
+		
+		int diameter = 0;
+
+		if (root == null) {
+			return 0;
+		}
+		
+		
+		return Math.max(diameterOfTree(root.left), diameterOfTree(root.right)) + 1;		
+
+	}
 
 	public static void main(String[] args) {
 		// pre-order data
@@ -135,7 +169,7 @@ public class BinaryTreesLearning {
 		BinaryTree tree = new BinaryTree();
 		Node root = tree.buildTree(nodes);
 
-		System.out.println("Root:" + root.right.data);
+		System.out.println("Root:" + root.data);
 
 		System.out.println("Preorder traversal");
 		preorder(root);
@@ -157,12 +191,18 @@ public class BinaryTreesLearning {
 
 		System.out.println();
 		System.out.println("Total nodes: " + countNodes(root));
-		
+
 		System.out.println();
 		System.out.println("Sum of nodes: " + sumOfNodes(root));
-		
+
 		System.out.println();
-		System.out.println("Height of treee:" + heightOfTree(root));
+		System.out.println("Height of tree: " + heightOfTree(root));
+
+		System.err.println();
+		System.err.println("Diameter of tree Quad time: " + diameterOfTreeQuad(root));
+
+		System.out.println();
+		System.out.println("Diameter of Tree: " + diameterOfTree(root));
 
 	}
 
