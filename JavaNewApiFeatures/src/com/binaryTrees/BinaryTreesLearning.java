@@ -127,47 +127,119 @@ public class BinaryTreesLearning {
 		return Math.max(heightOfTree(root.left), heightOfTree(root.right)) + 1;
 	}
 
-	private static class NodeInfo {
-		int leftHeight;
-		int rightHeight;
-		int diameterOfTree;
-
-		public NodeInfo(int lh, int rh) {
-			this.leftHeight = lh;
-			this.rightHeight = rh;
-
-		}
-	}
-
 	/*
 	 * quadratic time O(n^2)
+	 * 
+	 *
 	 */
 	public static int diameterOfTreeQuad(Node root) {
 		if (root == null) {
 			return 0;
 		}
-		return heightOfTree(root.left) + heightOfTree(root.right) + 1;
+		int leftDiameter = diameterOfTreeQuad(root.left);
+		int rightDiameter = diameterOfTreeQuad(root.right);
+		int rootDiameter = heightOfTree(root.left) + heightOfTree(root.right) + 1;
+
+		return Math.max(Math.max(leftDiameter, rightDiameter), rootDiameter);
 	}
 
-	public static int diameterOfTree(Node root) {
+	public static class TreeInfo {
+		int ht;
+		int diam;
 
-		
-		int diameter = 0;
+		public TreeInfo(int ht, int diam) {
+			this.ht = ht;
+			this.diam = diam;
+		}
+	}
+
+	/*
+	 * O(n)
+	 * 
+	 * here we are going depth first so, when we reach bottom we hit null node which
+	 * will return 0,0 and then right of the root will also return 0,0
+	 */
+	public static TreeInfo diameterOfTree(Node root) {
 
 		if (root == null) {
-			return 0;
+			return new TreeInfo(0, 0);
 		}
-		
-		
-		return Math.max(diameterOfTree(root.left), diameterOfTree(root.right)) + 1;		
 
+		TreeInfo leftInfo = diameterOfTree(root.left);
+		TreeInfo rightInfo = diameterOfTree(root.right);
+
+		int leftDiam = leftInfo.diam;
+		int rightDiam = rightInfo.diam;
+		int rootDiam = leftInfo.ht + rightInfo.ht + 1;
+
+		int myHeight = Math.max(leftInfo.ht, rightInfo.ht) + 1;
+		int myDiam = Math.max(Math.max(leftDiam, rightDiam), rootDiam);
+
+		return new TreeInfo(myHeight, myDiam);
+
+	}
+
+	public static boolean isIdentical(Node root, Node subTreeRoot) {
+
+		if (root == null && subTreeRoot == null) {
+			return true;
+		}
+
+		if (root == null || subTreeRoot == null) {
+			return false;
+		}
+
+		if (root.data == subTreeRoot.data) {
+
+			System.out.println("root data: " + root.data + " subTreeRoot data: " + subTreeRoot.data);
+			return isIdentical(root.left, subTreeRoot.left) && isIdentical(root.right, subTreeRoot.right);
+		}
+
+		return false;
+
+	}
+
+	public static boolean isSubTree(Node root, Node subTreeRoot) {
+		if (subTreeRoot == null) {
+			return true;
+		}
+
+		if (root == null) {
+			return false;
+		}
+
+		if (root.data == subTreeRoot.data && isIdentical(root, subTreeRoot)) {
+			return true;
+		}
+
+		return isSubTree(root.left, subTreeRoot) || isSubTree(root.right, subTreeRoot);
+	}
+
+	public static boolean isPartialMatch(Node root, Node subTreeRoot) {
+		if (subTreeRoot == null) {
+			return true;
+		}
+
+		if (root == null) {
+			return false;
+		}
+
+		if (root.data == subTreeRoot.data && root.left.data == subTreeRoot.left.data
+				&& root.right.data == subTreeRoot.right.data) {
+			return true;
+		}
+
+		return isPartialMatch(root.left, subTreeRoot) || isPartialMatch(root.right, subTreeRoot);
 	}
 
 	public static void main(String[] args) {
 		// pre-order data
 		int[] nodes = { 1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1 };
-		BinaryTree tree = new BinaryTree();
-		Node root = tree.buildTree(nodes);
+		Node root = BinaryTree.buildTree(nodes);
+
+		BinaryTree.idx = -1;
+		int[] matchNodes = { 2, 4, -1, -1, 5, -1, -1 };
+		Node subTreeRoot = BinaryTree.buildTree(matchNodes);
 
 		System.out.println("Root:" + root.data);
 
@@ -202,7 +274,19 @@ public class BinaryTreesLearning {
 		System.err.println("Diameter of tree Quad time: " + diameterOfTreeQuad(root));
 
 		System.out.println();
-		System.out.println("Diameter of Tree: " + diameterOfTree(root));
+		System.out.println("Diameter of Tree: " + diameterOfTree(root).diam);
+
+		System.out.println();
+		System.out.println("SubTree root:" + subTreeRoot.data);
+
+		System.out.println("Sub tree Level order traversal");
+		levelOrder(subTreeRoot);
+
+		System.out.println();
+		System.out.println("is Sub tree: " + isSubTree(root, subTreeRoot));
+		
+		System.out.println();
+		System.out.println("is Partial Match: " + isPartialMatch(root, subTreeRoot));
 
 	}
 
