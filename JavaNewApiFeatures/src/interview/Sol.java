@@ -17,16 +17,12 @@ public class Sol {
 	}
 
 	public static Sol getSol() {
-
-		if (type != null) {
-			return type;
-		}
-
 		synchronized (Sol.class) {
+			if (type != null) {
+				return type;
+			}
 			type = new Sol();
 		}
 		return type;
-
 	}
-
 }
