@@ -3,6 +3,9 @@ package com.cadRole;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
+
+import com.array.ArrayTest;
 
 public class CadRole {
 
@@ -29,6 +32,10 @@ public class CadRole {
 			System.out.println("orAuthoritiesList:" + orAuthoritiesList);
 
 		}
+		
+		Integer[] arr = ArrayTest.getArr();
+		
+		Stream.of(arr).forEach(System.out::println);
 	}
 
 }

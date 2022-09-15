@@ -16,6 +16,12 @@ public class TestList {
 	}
 	
 	public static void main(String[] args) {
+		
+		Animal a = new Cat();
+		
+	
+		
+		
 		List<CustomObj> customList = Arrays.asList(new CustomObj(1, "one"), new CustomObj(1, "two"), null);
 		
 		List<CustomObj> customRecList = new ArrayList<>();
