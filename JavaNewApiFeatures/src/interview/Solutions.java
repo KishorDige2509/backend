@@ -8,32 +8,34 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-
-
 public class Solutions {
 
 	// Transform to Map<Integer, String>
 
 	public static void main(String[] args) {
-		
-		List<Integer> list = Arrays.asList(1,2,3,4);
-		
-		Map<Integer, String> collectMap = list.stream().collect(Collectors.toMap(Function.identity(), e->e.toString()));
-		
+
+		List<Integer> list = Arrays.asList(1, 2, 3, 4);
+
+		Map<Integer, String> collectMap = list.stream()
+				.collect(Collectors.toMap(Function.identity(), e -> e.toString()));
+
 		Map<Integer, String> transformMap = new HashMap<>();
-		
+
 		list.stream().forEach(i -> {
 			transformMap.put(i, i + "");
 		});
-		
-		for(Entry<Integer, String> entry:transformMap.entrySet()) {
-			System.out.println(entry.getKey() + ":" + '"' + entry.getValue() + '"');
-		}
-		
-		for(Entry<Integer, String> entry : collectMap.entrySet()) {
+
+		for (Entry<Integer, String> entry : transformMap.entrySet()) {
 			System.out.println(entry.getKey() + ":" + '"' + entry.getValue() + '"');
 		}
 
+		System.out.println("=======================================");
+
+		for (Entry<Integer, String> entry : collectMap.entrySet()) {
+			System.out.println(entry.getKey() + ":" + '"' + entry.getValue() + '"');
+		}
+
+		System.out.println("=======================================");
 		// Today is Friday and date is 12th August
 
 		String str = "Today is Friday and date is 12th August.";
@@ -46,9 +48,11 @@ public class Solutions {
 			} else {
 				countMap.put(str.charAt(i), 1);
 			}
-			
+
 		}
-		
+
+//		countMap.computeIfPresent(str.charAt(i), (k, v) -> v++);
+
 		System.out.println("Char content: " + countMap.toString());
 
 	}

@@ -8,11 +8,11 @@ import java.io.Serializable;
  * serialization and deserialization
  * 
  */
-public class Sol implements Cloneable, Serializable {
+public class PureSingleton implements Cloneable, Serializable {
 
-	private static Sol instance = null;
+	private static PureSingleton instance = null;
 
-	private Sol() {
+	private PureSingleton() {
 		if (instance != null) {
 			throw new IllegalStateException("singleton only");
 		}
@@ -27,9 +27,9 @@ public class Sol implements Cloneable, Serializable {
 		return instance;
 	}
 
-	public static synchronized Sol getSol() {
+	public static synchronized PureSingleton getSol() {
 		if (instance == null) {
-			return instance = new Sol();
+			return instance = new PureSingleton();
 		} else {
 			return instance;
 		}
