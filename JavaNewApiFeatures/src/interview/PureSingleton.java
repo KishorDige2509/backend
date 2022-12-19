@@ -14,7 +14,7 @@ public class PureSingleton implements Cloneable, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private static PureSingleton instance = null;
 
 	private PureSingleton() {
@@ -34,9 +34,8 @@ public class PureSingleton implements Cloneable, Serializable {
 
 	public static synchronized PureSingleton getSol() {
 		if (instance == null) {
-			return instance = new PureSingleton();
-		} else {
-			return instance;
+			instance = new PureSingleton();
 		}
+		return instance;
 	}
 }
