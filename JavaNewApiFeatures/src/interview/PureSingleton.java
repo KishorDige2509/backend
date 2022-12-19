@@ -3,13 +3,18 @@ package interview;
 import java.io.Serializable;
 
 /*
- * Class.forName(package);
+ * Class.forName(qualified name of class);
  * new KeyWord
  * serialization and deserialization
  * 
  */
 public class PureSingleton implements Cloneable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private static PureSingleton instance = null;
 
 	private PureSingleton() {
