@@ -1,12 +1,15 @@
 package interview;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Solutions {
 
@@ -48,12 +51,38 @@ public class Solutions {
 			} else {
 				countMap.put(str.charAt(i), 1);
 			}
-
 		}
 
-//		countMap.computeIfPresent(str.charAt(i), (k, v) -> v++);
-
 		System.out.println("Char content: " + countMap.toString());
+		System.out.println("=======================================");
+
+		Map<Character, Integer> countMapImp = new HashMap<>();
+		for (int i = 0; i < str.length(); i++) {
+			countMapImp.computeIfPresent(str.charAt(i), (k, v) -> v + 1);
+			countMapImp.putIfAbsent(str.charAt(i), 1);
+		}
+		System.out.println("Char content Improved: " + countMap.toString());
+		System.out.println("=======================================");
+
+		System.out.println("Char count using stream: " + Stream.of(str.split(""))
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).toString());
+		System.out.println("=======================================");
+
+		System.out.println("Char Max occurr count using stream: "
+				+ Stream.of(str.split("")).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+						.entrySet().parallelStream().max(Entry.comparingByValue()).toString());
+		System.out.println("=======================================");
+
+		System.out.println("Char Min occurr count using stream: "
+				+ Stream.of(str.split("")).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+						.entrySet().parallelStream().min(Entry.comparingByValue()).toString());
+		System.out.println("=======================================");
+
+		// TODO
+		System.out.println("Char Sorted Asc using stream: " + Stream.of(str.split(""))
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet().stream().sorted()
+				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new)).toString());
+		System.out.println("=======================================");
 
 	}
 }

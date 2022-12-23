@@ -25,7 +25,7 @@ public class PureSingleton implements Cloneable, Serializable {
 
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
-		throw new CloneNotSupportedException();
+		throw new CloneNotSupportedException("This is pure singleton class, instance creation is limited to one");
 	}
 
 	protected Object readResolve() {
