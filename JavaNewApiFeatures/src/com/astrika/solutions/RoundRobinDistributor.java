@@ -8,7 +8,7 @@ public class RoundRobinDistributor {
 	public static void main(String[] args) {
 		// Create a list of elements to be distributed
 		List<Integer> elements = new ArrayList<>();
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 1; i <= 100; i++) {
 			elements.add(i);
 		}
 
