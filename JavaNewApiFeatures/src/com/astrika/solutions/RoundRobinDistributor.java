@@ -21,10 +21,10 @@ public class RoundRobinDistributor {
 		people.add("Krishna");
 
 		// fetch last Index of distribution for this set of people
-		int personLastIndex = 4;
+		int lastDistributionIndex = 4;
 
 		// Distribute the elements to the people in a round-robin fashion
-		List<List<Integer>> distributions = roundRobinDistribute(elements, people, personLastIndex);
+		List<List<Integer>> distributions = roundRobinDistribute(elements, people, lastDistributionIndex);
 
 		// Print the distributions
 		for (int i = 0; i < distributions.size(); i++) {
