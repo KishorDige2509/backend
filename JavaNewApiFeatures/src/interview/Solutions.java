@@ -16,6 +16,8 @@ public class Solutions {
 	// Transform to Map<Integer, String>
 
 	public static void main(String[] args) {
+		
+		System.out.println("Program Arguments: "+ args[0] +" arg2: "+ args[1]);
 
 		List<Integer> list = Arrays.asList(1, 2, 3, 4);
 
@@ -78,11 +80,14 @@ public class Solutions {
 						.entrySet().parallelStream().min(Entry.comparingByValue()).toString());
 		System.out.println("=======================================");
 
-		// TODO 
+		// TODO
 		System.out.println("Char Sorted Asc using stream: " + Stream.of(str.split(""))
-				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet().stream().sorted()
-				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new)).toString());
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet().stream()
+				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e2, HashMap::new)).toString());
 		System.out.println("=======================================");
+
+		System.out.println("Using to Map: " + Stream.of(str.split(""))
+				.collect(Collectors.toMap(Function.identity(), String::getBytes, (e1, e2) -> e1, HashMap::new)));
 
 	}
 }
