@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class RoundRobinUntilAllDistributed {
@@ -14,7 +14,10 @@ public class RoundRobinUntilAllDistributed {
 		// Create a list of elements to be distributed more optimized way would be to
 		// use queue and use remove on it
 
-		List<Integer> elements = IntStream.rangeClosed(1, 217).boxed().collect(Collectors.toList());
+		Queue<Integer> elements = new LinkedList<>();
+
+//		IntStream.rangeClosed(1, 217).boxed().collect(Collectors.toList());
+		IntStream.rangeClosed(1, 217).forEach(elements::add);
 
 		int elementsSize = elements.size();
 
@@ -59,7 +62,7 @@ public class RoundRobinUntilAllDistributed {
 		}
 	}
 
-	public static <T> List<List<T>> distributeElements(List<T> elements, List<Person> people,
+	public static <T> List<List<T>> distributeElements(Queue<T> elements, List<Person> people,
 			int lastDistributionIndex) {
 
 		// Create a list of lists to hold the distributions for each person
@@ -92,10 +95,12 @@ public class RoundRobinUntilAllDistributed {
 			}
 			Person person = people.get(personIndex);
 			if (person.capacity > distributions.get(personIndex).size()) {
-				distributions.get(personIndex).add(elements.remove(0));
+				distributions.get(personIndex).add(elements.poll());
 			} else {
 				// TODO instead of adding skipped person to new list remove the person from
-				// people array this will reduce people size and there by bounding indexes and
+				// people array/list/queue which will be created newly with indexes, this will
+				// reduce people size and there by bounding indexes -- only catch would be
+				// divide by zero error needs to be handled and
 				// improve performance
 				skippedPersons.add(personIndex);
 			}
@@ -126,10 +131,10 @@ public class RoundRobinUntilAllDistributed {
 
 		// Distribute the remaining elements in a round-robin fashion over the capacity
 		System.out.println("Index before: " + personIndex);
-		personIndex++;
+//		personIndex++;
 		for (int i = 0; i < elements.size(); i++) {
 			personIndex = (personIndex + i) % peopleSize;
-			distributions.get(personIndex).add(elements.get(i));
+			distributions.get(personIndex).add(elements.remove());
 			System.out.println("Index after: " + personIndex);
 		}
 
