@@ -5,15 +5,16 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class RoundRobinUntilAllDistributed {
 
 	public static void main(String[] args) {
-		// Create a list of elements to be distributed
-		List<Integer> elements = new ArrayList<>();
-		for (Integer i = 1; i <= 217; i++) {
-			elements.add(i);
-		}
+		// Create a list of elements to be distributed more optimized way would be to
+		// use queue and use remove on it
+
+		List<Integer> elements = IntStream.rangeClosed(1, 217).boxed().collect(Collectors.toList());
 
 		int elementsSize = elements.size();
 
@@ -93,6 +94,9 @@ public class RoundRobinUntilAllDistributed {
 			if (person.capacity > distributions.get(personIndex).size()) {
 				distributions.get(personIndex).add(elements.remove(0));
 			} else {
+				// TODO instead of adding skipped person to new list remove the person from
+				// people array this will reduce people size and there by bounding indexes and
+				// improve performance
 				skippedPersons.add(personIndex);
 			}
 			personIndex = (personIndex + 1) % peopleSize;
