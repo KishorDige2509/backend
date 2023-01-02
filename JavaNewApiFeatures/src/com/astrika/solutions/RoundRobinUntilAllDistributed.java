@@ -106,7 +106,7 @@ public class RoundRobinUntilAllDistributed {
 			}
 			personIndex = (personIndex + 1) % peopleSize;
 		}
-		// commented due to not distributing all as after capacity we use below logic
+		// commented due to not distributing all in required manner 
 		// Distribute the remaining elements in a round-robin fashion over the capacity
 //		while (!elements.isEmpty() && threshold<overallCapacity) {
 //			Person person = people.get(personIndex);
