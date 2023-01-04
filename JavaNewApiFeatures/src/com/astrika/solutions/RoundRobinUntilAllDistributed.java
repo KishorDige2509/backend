@@ -135,41 +135,36 @@ public class RoundRobinUntilAllDistributed {
 		System.out.println();
 
 		// Distribute the elements in a round-robin fashion, until the capacity of each
-		// person is reached
-		int branchIndex;
+		// Container is reached
+		int containerIndex;
 		// check last distribution index and set max value if greater than array size
 		// and zero in case of negative
 		if (lastDistributionIndex >= containers.size()) {
-			branchIndex = containers.size() - 1;
+			containerIndex = containers.size() - 1;
 		} else if (lastDistributionIndex < 0) {
-			branchIndex = 0;
+			containerIndex = 0;
 		} else {
-			branchIndex = lastDistributionIndex;
+			containerIndex = lastDistributionIndex;
 		}
 
 		System.out.println("==========================================");
-		System.out.println("Start index : " + branchIndex);
+		System.out.println("Start index : " + containerIndex);
 		System.out.println("==========================================");
 		System.out.println();
 
 		int peopleSize = containers.size();
-		Set<Integer> skippedPersons = new HashSet<>();
-		while (!leads.isEmpty() && skippedPersons.size() < peopleSize) {
-			if (skippedPersons.contains(branchIndex)) {
-				branchIndex = (branchIndex + 1) % peopleSize;
+		Set<Integer> skippedContainers = new HashSet<>();
+		while (!leads.isEmpty() && skippedContainers.size() < peopleSize) {
+			if (skippedContainers.contains(containerIndex)) {
+				containerIndex = (containerIndex + 1) % peopleSize;
 			}
-			Container branch = containers.get(branchIndex);
-			if (branch.capacity > distributions.get(branchIndex).size()) {
-				distributions.get(branchIndex).add(leads.poll());
-			} else {
-				// TODO instead of adding skipped person to new list remove the person from
-				// people array/list/queue which will be created newly with indexes, this will
-				// reduce people size and there by bounding indexes -- only catch would be
-				// divide by zero error needs to be handled and
-				// improve performance
-				skippedPersons.add(branchIndex);
+			Container branch = containers.get(containerIndex);
+			if (branch.capacity > distributions.get(containerIndex).size()) {
+				distributions.get(containerIndex).add(leads.poll());
+			} else {				
+				skippedContainers.add(containerIndex);
 			}
-			branchIndex = (branchIndex + 1) % peopleSize;
+			containerIndex = (containerIndex + 1) % peopleSize;
 		}
 		// commented due to not distributing all in required manner
 		// Distribute the remaining elements in a round-robin fashion over the capacity
@@ -195,7 +190,7 @@ public class RoundRobinUntilAllDistributed {
 //		}
 
 		// Distribute the remaining elements in a round-robin fashion over the capacity
-		System.out.println("Index before: " + branchIndex);
+		System.out.println("Index before: " + containerIndex);
 		System.out.println();
 
 //		personIndex++;
@@ -208,9 +203,9 @@ public class RoundRobinUntilAllDistributed {
 				System.out.println("Distributing pending elements... after capacity");
 				System.out.println();
 			}
-			branchIndex = (branchIndex + i) % peopleSize;
-			distributions.get(branchIndex).add(leads.remove());
-			System.out.println("Index after: " + branchIndex);
+			containerIndex = (containerIndex + i) % peopleSize;
+			distributions.get(containerIndex).add(leads.remove());
+			System.out.println("Index after: " + containerIndex);
 			if (i == distributions.size() - 1) {
 				System.out.println("==========================================");
 				System.out.println();
