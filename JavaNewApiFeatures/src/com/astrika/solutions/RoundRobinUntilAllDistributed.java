@@ -10,7 +10,7 @@ public class RoundRobinUntilAllDistributed {
 
 	public static void main(String[] args) {
 
-		int totalLeads = 1;
+		int totalLeads = 999;
 
 		// Create a list of elements to be distributed more optimized way would be to
 		// use queue and use remove on it
@@ -74,7 +74,11 @@ public class RoundRobinUntilAllDistributed {
 
 		// Distribute the leads to Sales Managers of Branches in round robin fashion
 		distributeLeadsToSalesManagersOfBranches(branches, leadDistributionsForAvanseBranches);
-
+		
+		System.out.println();
+		System.out.println("==========================================");		
+		System.out.println("Pending leads: "+ partnerLeads);
+		System.out.println("==========================================");
 	}
 
 	private static void distributeLeadsToSalesManagersOfBranches(List<Container> branches,
