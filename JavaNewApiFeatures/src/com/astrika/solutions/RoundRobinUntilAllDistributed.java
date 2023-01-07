@@ -100,6 +100,7 @@ public class RoundRobinUntilAllDistributed {
 			System.out.println(salesManagers.get(1).name + " Capacity:" + salesManagers.get(1).capacity);
 			System.out.println(salesManagers.get(2).name + " Capacity:" + salesManagers.get(2).capacity);
 			System.out.println(salesManagers.get(3).name + " Capacity:" + salesManagers.get(3).capacity);
+			System.out.println();
 
 			// fetch last distribution index
 			int lastSmDistributionIndex = IntStream.range(0, salesManagers.size())
@@ -175,7 +176,7 @@ public class RoundRobinUntilAllDistributed {
 		System.out.println("Current Container index : " + currentContainerIndex);
 		System.out.println("==========================================");
 		System.out.println();
-		
+
 		// Initialize last distribution index
 		int lastDistributionIndex = currentContainerIndex;
 
@@ -199,8 +200,8 @@ public class RoundRobinUntilAllDistributed {
 
 		System.out.println("Skipped Containers: " + skippedContainers);
 		System.out.println();
-		
-		System.out.println("Index before: " + lastDistributionIndex);
+
+		System.out.println("Index before: " + currentContainerIndex);
 		System.out.println();
 		// Distribute the remaining elements in a round-robin fashion over the capacity
 		for (int i = 0; i < leads.size(); i++) {
@@ -222,9 +223,17 @@ public class RoundRobinUntilAllDistributed {
 				System.out.println();
 			}
 		}
-		System.out.println("Index after: " + lastDistributionIndex);
-
+		System.out.println("Index after: " + currentContainerIndex);
 		System.out.println("Last distribution Index: " + lastDistributionIndex);
+
+		// Based on lastDistribution index we can set the lastLeadAssigned flag on
+		// container
+		containers.get(lastDistributionIndex).lastLeadAssigned = true;
+
+		// Print container name
+		System.out.println(containers.get(lastDistributionIndex).name + " : flag value: "
+				+ containers.get(lastDistributionIndex).lastLeadAssigned);
+
 		return distributions;
 	}
 
