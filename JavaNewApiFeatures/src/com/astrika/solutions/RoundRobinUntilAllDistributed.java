@@ -10,7 +10,7 @@ public class RoundRobinUntilAllDistributed {
 
 	public static void main(String[] args) {
 
-		int totalLeads = 999;
+		int totalLeads = 99;
 
 		// Create a list of elements to be distributed more optimized way would be to
 		// use queue and use remove on it
@@ -25,10 +25,10 @@ public class RoundRobinUntilAllDistributed {
 
 		// fetch Branches from DB for a Partner
 		List<Container> branches = new ArrayList<>();
-		branches.add(new Container("Mumbai", getCapacityByPercentage(0.3f, elementsSize), true));
-		branches.add(new Container("Goa", getCapacityByPercentage(0.2f, elementsSize), false));
-		branches.add(new Container("Nagpur", getCapacityByPercentage(0.2f, elementsSize), false));
-		branches.add(new Container("Nashik", getCapacityByPercentage(0.3f, elementsSize), false));
+		branches.add(new Container("Mumbai", getCapacityByPercentage(30f, elementsSize), true));
+		branches.add(new Container("Goa", getCapacityByPercentage(20.10f, elementsSize), false));
+		branches.add(new Container("Nagpur", getCapacityByPercentage(20f, elementsSize), false));
+		branches.add(new Container("Nashik", getCapacityByPercentage(30.001f, elementsSize), false));
 
 		// Print Capacity
 		System.out.println(branches.get(0).name + " Capacity:" + branches.get(0).capacity);
@@ -42,14 +42,14 @@ public class RoundRobinUntilAllDistributed {
 		int lastBranchDistributionIndex = IntStream.range(0, branches.size())
 				.filter(i -> branches.get(i).lastLeadAssigned).findFirst().orElse(-1);
 
-		System.out.println("Last Distribution Index:" + lastBranchDistributionIndex);
+		System.out.println("Last Branch Distribution Index:" + lastBranchDistributionIndex);
 
 		// set next distribution index
-		int nextDistributionIndex = ++lastBranchDistributionIndex;
+//		int nextDistributionIndex = ++lastBranchDistributionIndex;
 
 		// Distribute the leads in a round-robin fashion
 		List<List<Integer>> leadDistributionsForAvanseBranches = distributeElements(partnerLeads, branches,
-				nextDistributionIndex);
+				lastBranchDistributionIndex);
 
 		// Print the distributions
 		System.out.println("*******************************");
@@ -74,10 +74,10 @@ public class RoundRobinUntilAllDistributed {
 
 		// Distribute the leads to Sales Managers of Branches in round robin fashion
 		distributeLeadsToSalesManagersOfBranches(branches, leadDistributionsForAvanseBranches);
-		
+
 		System.out.println();
-		System.out.println("==========================================");		
-		System.out.println("Pending leads: "+ partnerLeads);
+		System.out.println("==========================================");
+		System.out.println("Pending leads: " + partnerLeads);
 		System.out.println("==========================================");
 	}
 
@@ -91,13 +91,13 @@ public class RoundRobinUntilAllDistributed {
 			// fetch Sales Managers from DB for a Branch
 			List<Container> salesManagers = new ArrayList<>();
 			salesManagers.add(new Container("Sales Manager No. 1 of Branch " + branches.get(branchNo).name,
-					getCapacityByPercentage(0.41f, branchLeadSize), false));
+					getCapacityByPercentage(41.0f, branchLeadSize), false));
 			salesManagers.add(new Container("Sales Manager No. 2 of Branch " + branches.get(branchNo).name,
-					getCapacityByPercentage(0.16f, branchLeadSize), true));
+					getCapacityByPercentage(16f, branchLeadSize), true));
 			salesManagers.add(new Container("Sales Manager No. 3 of Branch " + branches.get(branchNo).name,
-					getCapacityByPercentage(0.23f, branchLeadSize), false));
+					getCapacityByPercentage(23f, branchLeadSize), false));
 			salesManagers.add(new Container("Sales Manager No. 4 of Branch " + branches.get(branchNo).name,
-					getCapacityByPercentage(0.343f, branchLeadSize), false));
+					getCapacityByPercentage(34f, branchLeadSize), false));
 
 			// Print Capacity
 			System.out.println(salesManagers.get(0).name + " Capacity:" + salesManagers.get(0).capacity);
@@ -109,14 +109,14 @@ public class RoundRobinUntilAllDistributed {
 			// fetch last distribution index
 			int lastSmDistributionIndex = IntStream.range(0, salesManagers.size())
 					.filter(i -> salesManagers.get(i).lastLeadAssigned).findFirst().orElse(-1);
-			System.out.println("Last Distribution Index:" + lastSmDistributionIndex);
+			System.out.println("Last SM Distribution Index:" + lastSmDistributionIndex);
 
 			// set next distribution index
-			int nextDistributionIndex = ++lastSmDistributionIndex;
+//			int nextDistributionIndex = ++lastSmDistributionIndex;
 
 			// Distribute leads in round robin fashion
 			List<List<Integer>> leadDistributionsForBranchSMs = distributeElements(branchLeads, salesManagers,
-					nextDistributionIndex);
+					lastSmDistributionIndex);
 
 			// Print the distributions
 			for (int salesManagerNo = 0; salesManagerNo < leadDistributionsForBranchSMs.size(); salesManagerNo++) {
@@ -159,7 +159,7 @@ public class RoundRobinUntilAllDistributed {
 	}
 
 	public static <T> List<List<T>> distributeElements(Queue<T> leads, List<Container> containers,
-			int startDistributionIndex) {
+			int lastDistributionIndex) {
 
 		// Create a list of lists to hold the distributions for each Container
 		List<List<T>> distributions = new ArrayList<>();
@@ -169,12 +169,12 @@ public class RoundRobinUntilAllDistributed {
 
 		System.out.println("==========================================");
 		System.out.println("Containers: " + containers.size());
-		System.out.println("Start Distribution index: " + startDistributionIndex);
+		System.out.println("Start Distribution index: " + lastDistributionIndex);
 		System.out.println("==========================================");
 		System.out.println();
 
 		// Get current container index
-		int currentContainerIndex = getCurrentContainerIndex(containers, startDistributionIndex);
+		int currentContainerIndex = getCurrentContainerIndex(containers, lastDistributionIndex);
 
 		System.out.println("==========================================");
 		System.out.println("Current Container index : " + currentContainerIndex);
@@ -182,7 +182,7 @@ public class RoundRobinUntilAllDistributed {
 		System.out.println();
 
 		// Initialize last distribution index
-		int lastDistributionIndex = currentContainerIndex;
+//		int lastDistributionIndex = currentContainerIndex;
 
 		int containerSize = containers.size();
 		boolean roundRobinHappened = false;
@@ -205,29 +205,43 @@ public class RoundRobinUntilAllDistributed {
 		System.out.println("Skipped Containers: " + skippedContainers);
 		System.out.println();
 
-		System.out.println("Index before: " + currentContainerIndex);
+		System.out.println("Current Container Index from Capacity distribution: " + currentContainerIndex);
+		System.out.println("Last Distribution Index before: " + lastDistributionIndex);
 		System.out.println();
 		// Distribute the remaining elements in a round-robin fashion over the capacity
-		for (int i = 0; i < leads.size(); i++) {
-			if (i == 0) {
-				System.out.println("==========================================");
-				System.out.println("Distributing pending elements... after capacity");
-				System.out.println();
+//		for (int i = 0; i < leads.size(); i++) {
+//			if (i == 0) {
+//				System.out.println("==========================================");
+//				System.out.println("Distributing pending elements... after capacity");
+//				System.out.println();
+//
+//				// increment lastDistributionIndex if round-robin was previously done
+//				if (roundRobinHappened) {
+//					currentContainerIndex = ++lastDistributionIndex;
+//				}
+//			}
+//			currentContainerIndex = (currentContainerIndex + i) % containerSize;
+//
+//			T lead = leads.remove();
+//			System.out.println("Adding lead: " + lead.toString() + " in Container: " + currentContainerIndex);
+//
+//			distributions.get(currentContainerIndex).add(lead);
+//
+//			if (i == leads.size() - 1) {
+//				lastDistributionIndex = currentContainerIndex;
+//				System.out.println("==========================================");
+//				System.out.println();
+//			}
+//		}
 
-				// increment lastDistributionIndex if round-robin was previously done
-				if (roundRobinHappened) {
-					lastDistributionIndex++;
-				}
-			}
-			currentContainerIndex = (lastDistributionIndex + i) % containerSize;
-			distributions.get(currentContainerIndex).add(leads.remove());
-			if (i == distributions.size() - 1) {
-				lastDistributionIndex = currentContainerIndex;
-				System.out.println("==========================================");
-				System.out.println();
-			}
-		}
-		System.out.println("Index after: " + currentContainerIndex);
+		// New Code	
+		System.out.println("Distributing pending elements... over capacity");
+		while (!leads.isEmpty()) {
+			T lead = leads.remove();
+			lastDistributionIndex = (lastDistributionIndex + 1) % containerSize;
+			System.out.println("Adding lead: " + lead.toString() + " in Container: " + lastDistributionIndex);			
+			distributions.get(lastDistributionIndex).add(lead);			
+		}		
 		System.out.println("Last distribution Index: " + lastDistributionIndex);
 
 		// Based on lastDistribution index we can set the lastLeadAssigned flag on
@@ -247,9 +261,9 @@ public class RoundRobinUntilAllDistributed {
 			// Commented: as this condition is not required, instead start from zero
 			// required to enable round-robin
 //			currentContainerIndex = containers.size() - 1;
-			currentContainerIndex = 0;
-		} else if (lastDistributionIndex < 0) {
-			currentContainerIndex = 0;
+			currentContainerIndex = -1;
+		} else if (lastDistributionIndex < -1) {
+			currentContainerIndex = -1;
 		} else {
 			currentContainerIndex = lastDistributionIndex;
 		}
@@ -257,7 +271,12 @@ public class RoundRobinUntilAllDistributed {
 	}
 
 	public static int getCapacityByPercentage(float proportion, int elementsSize) {
-		return Math.round(proportion * elementsSize);
+
+		float multiplier = proportion / 100;
+
+		System.out.println("Mulitplier: " + multiplier);
+
+		return Math.round(multiplier * elementsSize);
 	}
 }
 
