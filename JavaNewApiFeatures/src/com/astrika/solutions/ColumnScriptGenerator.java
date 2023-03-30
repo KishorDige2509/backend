@@ -6,11 +6,13 @@ import java.util.List;
 public class ColumnScriptGenerator {
 
 	public static void main(String[] args) {
-		List<String> roles = Arrays.asList("SE", "ASM", "SM", "LSH", "RSH", "ZSH", "NSH", "BH", "CBO", "SUPER_ADMIN", "ADMIN");
-		List<String> tabs = Arrays.asList("ACTIVE", "DEACTIVATED");
-		Integer startId = 46;
-		Integer stopId = 49;
-		String listingMaster = "SALES_ROLE_MASTER_LISTING";
+		List<String> roles = Arrays.asList("SE", "ASM", "SM", "LSH", "RSH", "ZSH", "NSH", "BH", "CBO", "SUPER_ADMIN",
+				"ADMIN");
+		List<String> tabs = Arrays.asList("CONSENT_WAIT", "APP_IN_PROGRESS", "APP_REJECTED", "CREDIT_SANCTIONING",
+				"SANCTIONED", "AWAITING_CUSTOMER", "PARTIAL_DISBURSED", "FULLY_DISBURSED", "QUERY_HOLD");
+		Integer startId = 54;
+		Integer stopId = 65;
+		String listingMaster = "SALES_APPLICATION_LISTING";
 
 		for (String role : roles) {
 			for (String tab : tabs) {
