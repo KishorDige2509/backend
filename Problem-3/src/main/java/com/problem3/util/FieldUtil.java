@@ -23,6 +23,8 @@ public class FieldUtil {
 
 	private static final String CLASSNAME = FieldUtil.class.getSimpleName();
 
+	private static final String DTO = "DTO: {}";
+
 	private static final String FIELD_VALUE_TO_MASK = "Field Value to mask:{}";
 
 	private static final String FIELD_NAME_TO_MASK = "Field Name to mask:{}";
@@ -39,7 +41,7 @@ public class FieldUtil {
 	public String maskNonViewableFieldsInDTOV2(List<String> parentFieldNames, String requestBodyString)
 			throws IOException {
 		log.info(LogUtil.startLog(CLASSNAME));
-		log.info("DTO: {}", requestBodyString);
+		log.info(DTO, requestBodyString);
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode rootNode = objectMapper.readTree(requestBodyString);
@@ -59,6 +61,7 @@ public class FieldUtil {
 	public Set<String> getEmtpyMandatoryFieldsInDtoV2(List<String> parentFieldNames, String requestBodyString)
 			throws IOException {
 		log.info(LogUtil.startLog(CLASSNAME));
+		log.info(DTO, requestBodyString);
 
 		Set<String> emptyMandatoryFieldsInDto = new HashSet<>();
 
@@ -81,6 +84,7 @@ public class FieldUtil {
 	public Set<String> getNonEditableFieldsInDtoV2(List<String> parentFieldNames, String requestBodyString)
 			throws IOException {
 		log.info(LogUtil.startLog(CLASSNAME));
+		log.info(DTO, requestBodyString);
 
 		Set<String> nonEditableFieldsInDto = new HashSet<>();
 
