@@ -21,11 +21,13 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class FieldUtil {
 
+	private static final String CLASSNAME = FieldUtil.class.getSimpleName();
+
+	private static final String FIELD_VALUE_TO_CHECK = "Field value to check:{}";
+
 	private static final String FIELD_VALUE = "Field Value:{}";
 
 	private static final String FIELD_NAME = "Field Name:{}";
-
-	private static final String CLASSNAME = FieldUtil.class.getSimpleName();
 
 	private static final String DTO = "DTO: {}";
 
@@ -128,7 +130,7 @@ public class FieldUtil {
 			Map.Entry<String, JsonNode> field = fields.next();
 			String fieldName = field.getKey();
 			JsonNode fieldValue = field.getValue();
-			
+
 			log.info(FIELD_NAME, fieldName);
 			log.info(FIELD_VALUE, fieldValue);
 
@@ -280,7 +282,7 @@ public class FieldUtil {
 
 	private boolean fieldIsNullOrEmpty(JsonNode fieldValue) {
 		log.info(LogUtil.startLog(CLASSNAME));
-		log.info("Field value to check:{}", fieldValue);
+		log.info(FIELD_VALUE_TO_CHECK, fieldValue);
 		boolean test = fieldValue == null || fieldValue.isNull() || fieldValue.asText().isEmpty();
 		log.info("Is Field Null or Empty:{}", test);
 		log.info(LogUtil.exitLog(CLASSNAME));
@@ -289,7 +291,7 @@ public class FieldUtil {
 
 	private boolean fieldIsInstanceOfObject(JsonNode fieldValue) {
 		log.info(LogUtil.startLog(CLASSNAME));
-		log.info("Field value to check:{}", fieldValue);
+		log.info(FIELD_VALUE_TO_CHECK, fieldValue);
 		boolean test = fieldValue != null && fieldValue.isObject();
 		log.info("Is Field Value instance of Object:{}", test);
 		return test;
@@ -297,7 +299,7 @@ public class FieldUtil {
 
 	private boolean fieldIsInstanceOfArray(JsonNode fieldValue) {
 		log.info(LogUtil.startLog(CLASSNAME));
-		log.info("Field value to check:{}", fieldValue);
+		log.info(FIELD_VALUE_TO_CHECK, fieldValue);
 		boolean test = fieldValue != null && fieldValue.isArray();
 		log.info("Is Field Value instance of Array:{}", test);
 		return test;
