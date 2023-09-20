@@ -8,10 +8,10 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = { "com.problem3.**"})
 @EntityScan("com.problem3.integration.domain")
 @EnableJpaRepositories("com.problem3.integration.repository")
-@ComponentScan(basePackages = { "com.problem3.**"})
+/* @ComponentScan(basePackages = { "com.problem3.**"}) */
 public class Application extends SpringBootServletInitializer{
 
 	public static void main(String[] args) {
