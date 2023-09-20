@@ -21,6 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class FieldUtil {
 
+	private static final String CLASSNAME = FieldUtil.class.getSimpleName();
+
+	private static final String FIELDS_TO_CHECK = "Fields to check with:{}";
+
 	private static final String UPDATED_EMPTY_MANDATOY_FIELDS_SET = "Updated emptyMandatoyFieldsSet:{}";
 
 	private static final String ADDING_FIELDS_TO_EMPTY_MANDATOY_FIELDS_SET = "Adding Fields to emptyMandatoyFieldsSet ...";
@@ -28,8 +32,6 @@ public class FieldUtil {
 	private static final String FIELD_VALUE_FOUND_NULL_OR_EMPTY = "Field Value found null or empty:{}";
 
 	private static final String FIELD_NAME_FOUND_NULL_OR_EMPTY = "Field Name found null or empty:{}";
-
-	private static final String CLASSNAME = FieldUtil.class.getSimpleName();
 
 	private static final String FIELD_VALUE_TO_CHECK = "Field value to check:{}";
 
@@ -55,6 +57,7 @@ public class FieldUtil {
 	public String maskNonViewableFieldsInDTOV2(List<String> parentFieldNames, String requestBodyString)
 			throws IOException {
 		log.info(LogUtil.startLog(CLASSNAME));
+		log.info(FIELDS_TO_CHECK, parentFieldNames);
 		log.info(DTO, requestBodyString);
 
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -75,6 +78,7 @@ public class FieldUtil {
 	public Set<String> getEmtpyMandatoryFieldsInDtoV2(List<String> parentFieldNames, String requestBodyString)
 			throws IOException {
 		log.info(LogUtil.startLog(CLASSNAME));
+		log.info(FIELDS_TO_CHECK, parentFieldNames);
 		log.info(DTO, requestBodyString);
 
 		Set<String> emptyMandatoryFieldsInDto = new HashSet<>();
@@ -98,6 +102,7 @@ public class FieldUtil {
 	public Set<String> getNonEditableFieldsInDtoV2(List<String> parentFieldNames, String requestBodyString)
 			throws IOException {
 		log.info(LogUtil.startLog(CLASSNAME));
+		log.info(FIELDS_TO_CHECK, parentFieldNames);
 		log.info(DTO, requestBodyString);
 
 		Set<String> nonEditableFieldsInDto = new HashSet<>();
@@ -343,7 +348,7 @@ public class FieldUtil {
 			Map.Entry<String, JsonNode> field = fields.next();
 			String fieldName = field.getKey();
 			JsonNode fieldValue = field.getValue();
-			
+
 			log.info(FIELD_NAME, fieldName);
 			log.info(FIELD_VALUE, fieldValue);
 
