@@ -21,6 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class FieldUtil {
 
+	private static final String FIELD_VALUE = "Field Value:{}";
+
+	private static final String FIELD_NAME = "Field Name:{}";
+
 	private static final String CLASSNAME = FieldUtil.class.getSimpleName();
 
 	private static final String DTO = "DTO: {}";
@@ -101,7 +105,9 @@ public class FieldUtil {
 	private void findEmptyAndNullFieldsInJsonNode(List<String> parentFieldNames, JsonNode node,
 			Set<String> emptyMandatoryFieldsInDto) {
 		log.info(LogUtil.startLog(CLASSNAME));
-		if (emptyMandatoryFieldsInDto.isEmpty()) {
+		log.info("Node to check for empty mandatory fields:{}", node);
+		if (null == emptyMandatoryFieldsInDto) {
+			log.info("Initializing set...");
 			emptyMandatoryFieldsInDto = new HashSet<>();
 		}
 
@@ -116,14 +122,22 @@ public class FieldUtil {
 	private void findEmptyAndNullFieldsInJsonObject(List<String> parentFieldNames, ObjectNode objectNode,
 			Set<String> emptyMandatoryFieldsInDto) {
 		log.info(LogUtil.startLog(CLASSNAME));
+		log.info("Empty Mandatory fields in DTO:{}", emptyMandatoryFieldsInDto);
 		Iterator<Map.Entry<String, JsonNode>> fields = objectNode.fields();
 		while (fields.hasNext()) {
 			Map.Entry<String, JsonNode> field = fields.next();
 			String fieldName = field.getKey();
 			JsonNode fieldValue = field.getValue();
+			
+			log.info(FIELD_NAME, fieldName);
+			log.info(FIELD_VALUE, fieldValue);
 
 			if (parentFieldNames.contains(fieldName) && fieldIsNullOrEmpty(fieldValue)) {
+				log.info("Field Name found null or empty:{}", fieldName);
+				log.info("Field Value found null or empty:{}", fieldValue);
+				log.info("Adding Fields to emptyMandatoyFieldsSet ...");
 				emptyMandatoryFieldsInDto.add(fieldName);
+				log.info("Updated emptyMandatoyFieldsSet:{}", emptyMandatoryFieldsInDto);
 			} else {
 				findEmptyAndNullFieldsInJsonNode(parentFieldNames, fieldValue, emptyMandatoryFieldsInDto);
 			}
@@ -134,6 +148,7 @@ public class FieldUtil {
 	private void findEmptyAndNullFieldsInJsonArray(List<String> parentFieldNames, ArrayNode arrayNode,
 			Set<String> emptyMandatoryFieldsInDto) {
 		log.info(LogUtil.startLog(CLASSNAME));
+		log.info("Array Node to check for empty mandatory fields:{}", arrayNode);
 		for (JsonNode element : arrayNode) {
 			if (fieldIsInstanceOfObject(element)) {
 				findEmptyAndNullFieldsInJsonNode(parentFieldNames, element, emptyMandatoryFieldsInDto);
@@ -144,6 +159,7 @@ public class FieldUtil {
 
 	private void maskJsonNode(List<String> parentFieldNames, JsonNode node) {
 		log.info(LogUtil.startLog(CLASSNAME));
+		log.info("Node to mask:{}", node);
 		if (node.isObject()) {
 			maskObjectFields(parentFieldNames, (ObjectNode) node);
 		} else if (node.isArray()) {
@@ -160,8 +176,8 @@ public class FieldUtil {
 			String fieldName = field.getKey();
 			JsonNode fieldValue = field.getValue();
 
-			log.info("Field Name:{}", fieldName);
-			log.info("Field Value:{}", fieldValue);
+			log.info(FIELD_NAME, fieldName);
+			log.info(FIELD_VALUE, fieldValue);
 
 			if (parentFieldNames.contains(fieldName)) {
 				if (fieldIsInstanceOfObject(fieldValue)) {
@@ -204,6 +220,7 @@ public class FieldUtil {
 		for (int i = 0; i < arrayNode.size(); i++) {
 			arrayNode.set(i, new TextNode(MASK));
 		}
+		log.info(LogUtil.exitLog(CLASSNAME));
 	}
 
 	private void maskObjectElementsInArray(List<String> parentFieldNames, ArrayNode arrayNode) {
@@ -262,15 +279,28 @@ public class FieldUtil {
 	}
 
 	private boolean fieldIsNullOrEmpty(JsonNode fieldValue) {
-		return fieldValue == null || fieldValue.isNull() || fieldValue.asText().isEmpty();
+		log.info(LogUtil.startLog(CLASSNAME));
+		log.info("Field value to check:{}", fieldValue);
+		boolean test = fieldValue == null || fieldValue.isNull() || fieldValue.asText().isEmpty();
+		log.info("Is Field Null or Empty:{}", test);
+		log.info(LogUtil.exitLog(CLASSNAME));
+		return test;
 	}
 
 	private boolean fieldIsInstanceOfObject(JsonNode fieldValue) {
-		return fieldValue != null && fieldValue.isObject();
+		log.info(LogUtil.startLog(CLASSNAME));
+		log.info("Field value to check:{}", fieldValue);
+		boolean test = fieldValue != null && fieldValue.isObject();
+		log.info("Is Field Value instance of Object:{}", test);
+		return test;
 	}
 
 	private boolean fieldIsInstanceOfArray(JsonNode fieldValue) {
-		return fieldValue != null && fieldValue.isArray();
+		log.info(LogUtil.startLog(CLASSNAME));
+		log.info("Field value to check:{}", fieldValue);
+		boolean test = fieldValue != null && fieldValue.isArray();
+		log.info("Is Field Value instance of Array:{}", test);
+		return test;
 	}
 
 }
