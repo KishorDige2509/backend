@@ -23,6 +23,10 @@ public class FieldUtil {
 
 	private static final String CLASSNAME = FieldUtil.class.getSimpleName();
 
+	private static final String FIELD_VALUE_TO_MASK = "Field Value to mask:{}";
+
+	private static final String FIELD_NAME_TO_MASK = "Field Name to mask:{}";
+
 	private static final String MASK = "XXXX";
 
 	/**
@@ -151,8 +155,13 @@ public class FieldUtil {
 				if (fieldIsInstanceOfObject(fieldValue)) {
 					maskAllFieldsInObject((ObjectNode) fieldValue);
 				} else if (fieldIsInstanceOfArray(fieldValue)) {
+					log.info(FIELD_NAME_TO_MASK, fieldName);
+					log.info(FIELD_VALUE_TO_MASK, fieldValue);
+
 					maskArrayElements((ArrayNode) fieldValue);
 				} else {
+					log.info(FIELD_NAME_TO_MASK, fieldName);
+					log.info(FIELD_VALUE_TO_MASK, fieldValue);
 					objectNode.put(fieldName, MASK);
 				}
 			} else {
@@ -168,8 +177,8 @@ public class FieldUtil {
 			String fieldName = field.getKey();
 			JsonNode fieldValue = field.getValue();
 
-			log.info("Field Name:{}", fieldName);
-			log.info("Field Value:{}", fieldValue);
+			log.info(FIELD_NAME_TO_MASK, fieldName);
+			log.info(FIELD_VALUE_TO_MASK, fieldValue);
 			objectNode.put(fieldName, MASK);
 
 		}
@@ -177,10 +186,7 @@ public class FieldUtil {
 
 	private void maskArrayElements(ArrayNode arrayNode) {
 		for (int i = 0; i < arrayNode.size(); i++) {
-			JsonNode element = arrayNode.get(i);
-			if (!fieldIsInstanceOfObject(element)) {
-				arrayNode.set(i, new TextNode(MASK));
-			}
+			arrayNode.set(i, new TextNode(MASK));
 		}
 	}
 
