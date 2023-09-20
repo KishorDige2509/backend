@@ -283,7 +283,20 @@ public class FieldUtil {
 	private boolean fieldIsNullOrEmpty(JsonNode fieldValue) {
 		log.info(LogUtil.startLog(CLASSNAME));
 		log.info(FIELD_VALUE_TO_CHECK, fieldValue);
-		boolean test = fieldValue == null || fieldValue.isNull() || fieldValue.asText().isEmpty();
+		boolean test = false;
+		if (fieldValue.isArray()) {
+			// Check each element in the array
+			for (JsonNode element : fieldValue) {
+				if (element == null || element.isNull() || element.asText().isEmpty()) {
+					test = true;
+					break;
+				}
+			}
+
+		} else {
+			test = fieldValue.isNull() || fieldValue.asText().isEmpty();
+		}
+
 		log.info("Is Field Null or Empty:{}", test);
 		log.info(LogUtil.exitLog(CLASSNAME));
 		return test;
