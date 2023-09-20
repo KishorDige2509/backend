@@ -49,20 +49,20 @@ public class FieldUtil {
 
 	/**
 	 * 
-	 * @param parentFieldNames
+	 * @param fieldNamesToCheckWith
 	 * @param requestBodyString
 	 * @return
 	 * @throws IOException
 	 */
-	public String maskNonViewableFieldsInDTOV2(List<String> parentFieldNames, String requestBodyString)
+	public String maskNonViewableFieldsInDTOV2(List<String> fieldNamesToCheckWith, String requestBodyString)
 			throws IOException {
 		log.info(LogUtil.startLog(CLASSNAME));
-		log.info(FIELDS_TO_CHECK, parentFieldNames);
+		log.info(FIELDS_TO_CHECK, fieldNamesToCheckWith);
 		log.info(DTO, requestBodyString);
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode rootNode = objectMapper.readTree(requestBodyString);
-		maskJsonNode(parentFieldNames, rootNode);
+		maskJsonNode(fieldNamesToCheckWith, rootNode);
 
 		log.info(LogUtil.exitLog(CLASSNAME));
 		return objectMapper.writeValueAsString(rootNode);
@@ -70,15 +70,15 @@ public class FieldUtil {
 
 	/**
 	 * 
-	 * @param parentFieldNames
+	 * @param fieldNamesToCheckWith
 	 * @param requestBodyString
 	 * @return
 	 * @throws IOException
 	 */
-	public Set<String> getEmtpyMandatoryFieldsInDtoV2(List<String> parentFieldNames, String requestBodyString)
+	public Set<String> getEmtpyMandatoryFieldsInDtoV2(List<String> fieldNamesToCheckWith, String requestBodyString)
 			throws IOException {
 		log.info(LogUtil.startLog(CLASSNAME));
-		log.info(FIELDS_TO_CHECK, parentFieldNames);
+		log.info(FIELDS_TO_CHECK, fieldNamesToCheckWith);
 		log.info(DTO, requestBodyString);
 
 		Set<String> emptyMandatoryFieldsInDto = new HashSet<>();
@@ -86,7 +86,7 @@ public class FieldUtil {
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode rootNode = objectMapper.readTree(requestBodyString);
 
-		findEmptyAndNullFieldsInJsonNode(parentFieldNames, rootNode, emptyMandatoryFieldsInDto);
+		findEmptyAndNullFieldsInJsonNode(fieldNamesToCheckWith, rootNode, emptyMandatoryFieldsInDto);
 
 		log.info(LogUtil.exitLog(CLASSNAME));
 		return emptyMandatoryFieldsInDto;
@@ -94,15 +94,15 @@ public class FieldUtil {
 
 	/**
 	 * 
-	 * @param parentFieldNames
+	 * @param fieldNamesToCheckWith
 	 * @param requestBodyString
 	 * @return
 	 * @throws IOException
 	 */
-	public Set<String> getNonEditableFieldsInDtoV2(List<String> parentFieldNames, String requestBodyString)
+	public Set<String> getNonEditableFieldsInDtoV2(List<String> fieldNamesToCheckWith, String requestBodyString)
 			throws IOException {
 		log.info(LogUtil.startLog(CLASSNAME));
-		log.info(FIELDS_TO_CHECK, parentFieldNames);
+		log.info(FIELDS_TO_CHECK, fieldNamesToCheckWith);
 		log.info(DTO, requestBodyString);
 
 		Set<String> nonEditableFieldsInDto = new HashSet<>();
@@ -110,14 +110,14 @@ public class FieldUtil {
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode rootNode = objectMapper.readTree(requestBodyString);
 
-		findNotEditableFieldsInJsonNode(parentFieldNames, rootNode, nonEditableFieldsInDto);
+		findNotEditableFieldsInJsonNode(fieldNamesToCheckWith, rootNode, nonEditableFieldsInDto);
 
 		log.info(LogUtil.exitLog(CLASSNAME));
 		return nonEditableFieldsInDto;
 
 	}
 
-	private void findEmptyAndNullFieldsInJsonNode(List<String> parentFieldNames, JsonNode node,
+	private void findEmptyAndNullFieldsInJsonNode(List<String> fieldNamesToCheckWith, JsonNode node,
 			Set<String> emptyMandatoryFieldsInDto) {
 		log.info(LogUtil.startLog(CLASSNAME));
 		log.info("Node to check for empty mandatory fields:{}", node);
@@ -127,14 +127,14 @@ public class FieldUtil {
 		}
 
 		if (node.isObject()) {
-			findEmptyAndNullFieldsInJsonObject(parentFieldNames, (ObjectNode) node, emptyMandatoryFieldsInDto);
+			findEmptyAndNullFieldsInJsonObject(fieldNamesToCheckWith, (ObjectNode) node, emptyMandatoryFieldsInDto);
 		} else if (node.isArray()) {
-			findEmptyAndNullFieldsInJsonArray(parentFieldNames, (ArrayNode) node, emptyMandatoryFieldsInDto);
+			findEmptyAndNullFieldsInJsonArray(fieldNamesToCheckWith, (ArrayNode) node, emptyMandatoryFieldsInDto);
 		}
 		log.info(LogUtil.exitLog(CLASSNAME));
 	}
 
-	private void findEmptyAndNullFieldsInJsonObject(List<String> parentFieldNames, ObjectNode objectNode,
+	private void findEmptyAndNullFieldsInJsonObject(List<String> fieldNamesToCheckWith, ObjectNode objectNode,
 			Set<String> emptyMandatoryFieldsInDto) {
 		log.info(LogUtil.startLog(CLASSNAME));
 		log.info("Node to check for empty mandatory fields:{}", objectNode);
@@ -148,10 +148,10 @@ public class FieldUtil {
 			log.info(FIELD_NAME, fieldName);
 			log.info(FIELD_VALUE, fieldValue);
 
-			if (parentFieldNames.contains(fieldName)) {
+			if (fieldNamesToCheckWith.contains(fieldName)) {
 				addFieldToSetIfEmpty(emptyMandatoryFieldsInDto, fieldName, fieldValue);
 			} else {
-				findEmptyAndNullFieldsInJsonNode(parentFieldNames, fieldValue, emptyMandatoryFieldsInDto);
+				findEmptyAndNullFieldsInJsonNode(fieldNamesToCheckWith, fieldValue, emptyMandatoryFieldsInDto);
 			}
 		}
 		log.info(LogUtil.exitLog(CLASSNAME));
@@ -235,30 +235,30 @@ public class FieldUtil {
 		return false;
 	}
 
-	private void findEmptyAndNullFieldsInJsonArray(List<String> parentFieldNames, ArrayNode arrayNode,
+	private void findEmptyAndNullFieldsInJsonArray(List<String> fieldNamesToCheckWith, ArrayNode arrayNode,
 			Set<String> emptyMandatoryFieldsInDto) {
 		log.info(LogUtil.startLog(CLASSNAME));
 		log.info("Array Node to check for empty mandatory fields:{}", arrayNode);
 		for (JsonNode element : arrayNode) {
 			if (fieldIsInstanceOfObject(element)) {
-				findEmptyAndNullFieldsInJsonNode(parentFieldNames, element, emptyMandatoryFieldsInDto);
+				findEmptyAndNullFieldsInJsonNode(fieldNamesToCheckWith, element, emptyMandatoryFieldsInDto);
 			}
 		}
 		log.info(LogUtil.exitLog(CLASSNAME));
 	}
 
-	private void maskJsonNode(List<String> parentFieldNames, JsonNode node) {
+	private void maskJsonNode(List<String> fieldNamesToCheckWith, JsonNode node) {
 		log.info(LogUtil.startLog(CLASSNAME));
 		log.info("Node to mask:{}", node);
 		if (node.isObject()) {
-			maskObjectFields(parentFieldNames, (ObjectNode) node);
+			maskObjectFields(fieldNamesToCheckWith, (ObjectNode) node);
 		} else if (node.isArray()) {
-			maskObjectElementsInArray(parentFieldNames, (ArrayNode) node);
+			maskObjectElementsInArray(fieldNamesToCheckWith, (ArrayNode) node);
 		}
 		log.info(LogUtil.exitLog(CLASSNAME));
 	}
 
-	private void maskObjectFields(List<String> parentFieldNames, ObjectNode objectNode) {
+	private void maskObjectFields(List<String> fieldNamesToCheckWith, ObjectNode objectNode) {
 		log.info(LogUtil.startLog(CLASSNAME));
 		Iterator<Map.Entry<String, JsonNode>> fields = objectNode.fields();
 		while (fields.hasNext()) {
@@ -269,7 +269,7 @@ public class FieldUtil {
 			log.info(FIELD_NAME, fieldName);
 			log.info(FIELD_VALUE, fieldValue);
 
-			if (parentFieldNames.contains(fieldName)) {
+			if (fieldNamesToCheckWith.contains(fieldName)) {
 				if (fieldIsInstanceOfObject(fieldValue)) {
 					maskAllFieldsInObject((ObjectNode) fieldValue);
 				} else if (fieldIsInstanceOfArray(fieldValue)) {
@@ -283,7 +283,7 @@ public class FieldUtil {
 					objectNode.put(fieldName, MASK);
 				}
 			} else {
-				maskJsonNode(parentFieldNames, fieldValue);
+				maskJsonNode(fieldNamesToCheckWith, fieldValue);
 			}
 		}
 		log.info(LogUtil.exitLog(CLASSNAME));
@@ -313,12 +313,12 @@ public class FieldUtil {
 		log.info(LogUtil.exitLog(CLASSNAME));
 	}
 
-	private void maskObjectElementsInArray(List<String> parentFieldNames, ArrayNode arrayNode) {
+	private void maskObjectElementsInArray(List<String> fieldNamesToCheckWith, ArrayNode arrayNode) {
 		log.info(LogUtil.startLog(CLASSNAME));
 		for (int i = 0; i < arrayNode.size(); i++) {
 			JsonNode element = arrayNode.get(i);
 			if (fieldIsInstanceOfObject(element)) {
-				maskJsonNode(parentFieldNames, element);
+				maskJsonNode(fieldNamesToCheckWith, element);
 			}
 		}
 		log.info(LogUtil.exitLog(CLASSNAME));
