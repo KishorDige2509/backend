@@ -117,7 +117,7 @@ public class FieldUtil {
 		log.info(LogUtil.startLog(CLASSNAME));
 		log.info("Node to check for empty mandatory fields:{}", node);
 		if (null == emptyMandatoryFieldsInDto) {
-			log.info("Initializing set...");
+			log.info("Initializing emptyMandatoryFieldsInDto set...");
 			emptyMandatoryFieldsInDto = new HashSet<>();
 		}
 
@@ -322,7 +322,8 @@ public class FieldUtil {
 	private void findNotEditableFieldsInJsonNode(List<String> fieldNames, JsonNode node,
 			Set<String> nonEditableFieldsInDto) {
 		log.info(LogUtil.startLog(CLASSNAME));
-		if (nonEditableFieldsInDto.isEmpty()) {
+		if (null == nonEditableFieldsInDto) {
+			log.info("Initializing nonEditableFieldsInDto set...");
 			nonEditableFieldsInDto = new HashSet<>();
 		}
 
@@ -342,8 +343,11 @@ public class FieldUtil {
 			Map.Entry<String, JsonNode> field = fields.next();
 			String fieldName = field.getKey();
 			JsonNode fieldValue = field.getValue();
+			
+			log.info(FIELD_NAME, fieldName);
+			log.info(FIELD_VALUE, fieldValue);
 
-			if (fieldNames.contains(fieldName) && !fieldIsInstanceOfObject(fieldValue)) {
+			if (fieldNames.contains(fieldName)) {
 				nonEditableFieldsInDto.add(fieldName);
 			} else {
 				findNotEditableFieldsInJsonNode(fieldNames, fieldValue, nonEditableFieldsInDto);
