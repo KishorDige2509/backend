@@ -96,6 +96,7 @@ public class FieldUtil {
 
 	private void findEmptyAndNullFieldsInJsonNode(List<String> parentFieldNames, JsonNode node,
 			Set<String> emptyMandatoryFieldsInDto) {
+		log.info(LogUtil.startLog(CLASSNAME));
 		if (emptyMandatoryFieldsInDto.isEmpty()) {
 			emptyMandatoryFieldsInDto = new HashSet<>();
 		}
@@ -105,10 +106,12 @@ public class FieldUtil {
 		} else if (node.isArray()) {
 			findEmptyAndNullFieldsInJsonArray(parentFieldNames, (ArrayNode) node, emptyMandatoryFieldsInDto);
 		}
+		log.info(LogUtil.exitLog(CLASSNAME));
 	}
 
 	private void findEmptyAndNullFieldsInJsonObject(List<String> parentFieldNames, ObjectNode objectNode,
 			Set<String> emptyMandatoryFieldsInDto) {
+		log.info(LogUtil.startLog(CLASSNAME));
 		Iterator<Map.Entry<String, JsonNode>> fields = objectNode.fields();
 		while (fields.hasNext()) {
 			Map.Entry<String, JsonNode> field = fields.next();
@@ -121,27 +124,32 @@ public class FieldUtil {
 				findEmptyAndNullFieldsInJsonNode(parentFieldNames, fieldValue, emptyMandatoryFieldsInDto);
 			}
 		}
-
+		log.info(LogUtil.exitLog(CLASSNAME));
 	}
 
 	private void findEmptyAndNullFieldsInJsonArray(List<String> parentFieldNames, ArrayNode arrayNode,
 			Set<String> emptyMandatoryFieldsInDto) {
+		log.info(LogUtil.startLog(CLASSNAME));
 		for (JsonNode element : arrayNode) {
 			if (fieldIsInstanceOfObject(element)) {
 				findEmptyAndNullFieldsInJsonNode(parentFieldNames, element, emptyMandatoryFieldsInDto);
 			}
 		}
+		log.info(LogUtil.exitLog(CLASSNAME));
 	}
 
 	private void maskJsonNode(List<String> parentFieldNames, JsonNode node) {
+		log.info(LogUtil.startLog(CLASSNAME));
 		if (node.isObject()) {
 			maskObjectFields(parentFieldNames, (ObjectNode) node);
 		} else if (node.isArray()) {
 			maskObjectElementsInArray(parentFieldNames, (ArrayNode) node);
 		}
+		log.info(LogUtil.exitLog(CLASSNAME));
 	}
 
 	private void maskObjectFields(List<String> parentFieldNames, ObjectNode objectNode) {
+		log.info(LogUtil.startLog(CLASSNAME));
 		Iterator<Map.Entry<String, JsonNode>> fields = objectNode.fields();
 		while (fields.hasNext()) {
 			Map.Entry<String, JsonNode> field = fields.next();
@@ -168,9 +176,11 @@ public class FieldUtil {
 				maskJsonNode(parentFieldNames, fieldValue);
 			}
 		}
+		log.info(LogUtil.exitLog(CLASSNAME));
 	}
 
 	private void maskAllFieldsInObject(ObjectNode objectNode) {
+		log.info(LogUtil.startLog(CLASSNAME));
 		Iterator<Map.Entry<String, JsonNode>> fields = objectNode.fields();
 		while (fields.hasNext()) {
 			Map.Entry<String, JsonNode> field = fields.next();
@@ -182,26 +192,30 @@ public class FieldUtil {
 			objectNode.put(fieldName, MASK);
 
 		}
+		log.info(LogUtil.exitLog(CLASSNAME));
 	}
 
 	private void maskArrayElements(ArrayNode arrayNode) {
+		log.info(LogUtil.startLog(CLASSNAME));
 		for (int i = 0; i < arrayNode.size(); i++) {
 			arrayNode.set(i, new TextNode(MASK));
 		}
 	}
 
 	private void maskObjectElementsInArray(List<String> parentFieldNames, ArrayNode arrayNode) {
+		log.info(LogUtil.startLog(CLASSNAME));
 		for (int i = 0; i < arrayNode.size(); i++) {
 			JsonNode element = arrayNode.get(i);
 			if (fieldIsInstanceOfObject(element)) {
 				maskJsonNode(parentFieldNames, element);
 			}
 		}
+		log.info(LogUtil.exitLog(CLASSNAME));
 	}
 
 	private void findNotEditableFieldsInJsonNode(List<String> fieldNames, JsonNode node,
 			Set<String> nonEditableFieldsInDto) {
-
+		log.info(LogUtil.startLog(CLASSNAME));
 		if (nonEditableFieldsInDto.isEmpty()) {
 			nonEditableFieldsInDto = new HashSet<>();
 		}
@@ -211,10 +225,12 @@ public class FieldUtil {
 		} else if (node.isArray()) {
 			findNotEditableFieldsInJsonArray(fieldNames, (ArrayNode) node, nonEditableFieldsInDto);
 		}
+		log.info(LogUtil.exitLog(CLASSNAME));
 	}
 
 	private void findNotEditableFieldsInJsonObject(List<String> fieldNames, ObjectNode objectNode,
 			Set<String> nonEditableFieldsInDto) {
+		log.info(LogUtil.startLog(CLASSNAME));
 		Iterator<Map.Entry<String, JsonNode>> fields = objectNode.fields();
 		while (fields.hasNext()) {
 			Map.Entry<String, JsonNode> field = fields.next();
@@ -227,15 +243,18 @@ public class FieldUtil {
 				findNotEditableFieldsInJsonNode(fieldNames, fieldValue, nonEditableFieldsInDto);
 			}
 		}
+		log.info(LogUtil.exitLog(CLASSNAME));
 	}
 
 	private void findNotEditableFieldsInJsonArray(List<String> fieldNames, ArrayNode arrayNode,
 			Set<String> nonEditableFieldsInDto) {
+		log.info(LogUtil.startLog(CLASSNAME));
 		for (JsonNode element : arrayNode) {
 			if (fieldIsInstanceOfObject(element)) {
 				findNotEditableFieldsInJsonNode(fieldNames, element, nonEditableFieldsInDto);
 			}
 		}
+		log.info(LogUtil.exitLog(CLASSNAME));
 	}
 
 	private boolean fieldIsNullOrEmpty(JsonNode fieldValue) {
