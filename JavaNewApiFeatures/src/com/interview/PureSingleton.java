@@ -1,4 +1,4 @@
-package interview;
+package com.interview;
 
 import java.io.Serializable;
 
