@@ -3,96 +3,31 @@ package com.wissen;
 import java.util.HashSet;
 
 public class Example4 {
-	
-	class Student { 
 
-	    private int id; 
+	public static void main(String[] args) {
 
-	    private String name; 
+		HashSet<Student> studentList = new HashSet<>();
 
-	  
+		Student st1 = new Student("Nimit", 1);
 
-	    public Student(String name, int id) { 
+		Student st2 = new Student("Rahul", 3);
 
-	        this.name = name;  
+		Student st3 = new Student("Nimit", 2);
 
-	        this.id = id; 
+		studentList.add(st1);
 
-	    } 
+		studentList.add(st2);
 
-	  
+		studentList.add(st3);
+		
 
-	    public int hashCode() { 
+		System.out.println(studentList.size());
+		
+		st1.id=3;
 
-	        return this.id; 
+		System.out.println(studentList.size());
 
-	    } 
-
-	  
-
-	    public String toString() { 
-
-	        return "Student: " + this.name + "@" + Integer.toHexString(hashCode()); 
-
-	    } 
-
-	  
-
-	    public boolean equals(Object o) { 
-
-	        if (o instanceof Student) { 
-
-	           Student s = (Student) o; 
-
-	           return s.id == this.id ? true : false; 
-
-	        } 
-
-	        return false; 
-
-	    } 
-
-	} 
-
-	  
-
-	public class UpdateHashSet { 
-
-	  
-
-	    public static void main(String[] args) { 
-
-	    HashSet<Student> studentList = new HashSet<>(); 
-
-	  
-
-	    Student st1 = new Student("Nimit", 1); 
-
-	    Student st2 = new Student("Rahul", 3); 
-
-	    Student st3 = new Student("Nimit", 2); 
-
-	    studentList.add(st1); 
-
-	    studentList.add(st2); 
-
-	    studentList.add(st3); 
-
-	  
-
-	    System.out.println(studentList.size()); 
-
-	  
-
-	    st1.id = 3; 
-
-	    System.out.println(studentList.size()); 
-
-	   } 
-
-	} 
-
-	 
+	}
 
 	/*
 	 * Output:
