@@ -56,3 +56,4 @@ public class KaprekarMagicNumber {
     }
 }
 
+// write a functional interface and provide a lambda implementation
