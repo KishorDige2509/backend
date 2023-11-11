@@ -1,7 +1,7 @@
 package com.wissen;
 
-import com.wissen.Example3.Rank;
-import com.wissen.Example3.Suite;
+import com.wissen.CardSolution.Rank;
+import com.wissen.CardSolution.Suite;
 
 public class Card {
 
