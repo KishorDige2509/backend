@@ -14,7 +14,7 @@ public class SplitArrayAndFlatternArray {
 		 * expected Output [0, 1, 2] [3, 4, 5] [6, 7, 8] [9]
 		 */
 
-		List<int[]> list = splitArray(original, splitSize);
+		List<int[]> list = spList(original, splitSize);
 		list.forEach(splitArray -> System.out.println(Arrays.toString(splitArray)));
 
 		Object[] array = { 1, 2, new Object[] { 3, 4, new Object[] { 5 }, 6, 7 }, 8, 9, 10 };
@@ -42,6 +42,25 @@ public class SplitArrayAndFlatternArray {
 
 		return chunks;
 	}
+	
+	public static List<int[]> spList(int[] array, int chunkSize){
+		int len = array.length;
+		List<int[]> subList = new ArrayList<>();
+		for(int i=0; i<len; i++) {
+			int calChunkSize = Math.min(chunkSize, len-i);
+			int[] sub = new int[calChunkSize];
+			for(int j=0; j<calChunkSize; j++) {
+				if(i<len) {					
+					sub[j] = array[i];
+					i++;
+				}
+			}
+			subList.add(sub);
+			i--;
+		}
+		return subList;
+	}
+	
 
 	public static Integer[] flatten(Object[] inputArray) {
 		List<Integer> flatList = new ArrayList<>();
