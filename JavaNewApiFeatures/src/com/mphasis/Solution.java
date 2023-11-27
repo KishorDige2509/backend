@@ -1,6 +1,7 @@
 package com.mphasis;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Solution {
@@ -9,15 +10,16 @@ public class Solution {
 	 * ip = {1,2,3,4,5,6,7,8} r=3 out={4,5,6,7,8,1,2,3}
 	 */
 	public static void main(String[] args) {
-		Integer[] arr = { 1, 2, 3, 4, 5, 6, 7, 8 };
+		Integer[] arr = { 11, 21, 13, 14, 51, 61, 71, 81 };
 		int r = 3;
-		System.out.println("out=" + Arrays.toString(rotateArray(arr, r)));
+		System.out.println("rotated array=" + Arrays.toString(rotateArray(arr, r)));
 
 		printEvenMultipleBy5(arr);
 	}
 
 	private static int[] rotateArray(Integer[] arr, int r) {
 		int len = arr.length;
+//		IntStream.range(0, len).map(i -> {return arr[(i + r)%len];}).mapToObj().toArray();
 		return Arrays.stream(arr).map(i -> arr[(i+r)%len]).mapToInt(Integer::intValue).toArray();
 	}
 

@@ -11,13 +11,13 @@ public class Sol {
 	}
 
 	private static String reverseString(String str) {
-		int length = str.length();
-		StringBuilder reverse = new StringBuilder();
-		for(int i=length-1; i>=0; i--) {
-			char charAt = str.charAt(i);
-			reverse.append(charAt);
-		}
-		return reverse.toString();
+//		int length = str.length();
+		StringBuilder strBuil = new StringBuilder(str);
+//		for(int i=length-1; i>=0; i--) {
+//			char charAt = str.charAt(i);
+//			reverse.append(charAt);
+//		}
+		return strBuil.reverse().toString();
 	}
 
 }
